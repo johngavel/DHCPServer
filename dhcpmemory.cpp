@@ -37,7 +37,6 @@ void DHCPMemory::setup() {
 void DHCPMemory::initMemory() {
   randomSeed(rp2040.hwrand32());
   EEPROM_TAKE;
-  EEPROM->breakSeal();
   memset(memory.memoryArray, 0, sizeof(MemoryStruct));
   memset(leaseStatus, 0, sizeof(leaseStatus));
   memory.mem.leaseTime = 86400;
@@ -66,6 +65,7 @@ void DHCPMemory::initMemory() {
   memory.mem.startAddressNumber = 101;
   memory.mem.leaseNum = 100;
   EEPROM_GIVE;
+  EEPROM_FORCE;
   updateBroadcast();
 }
 
@@ -188,35 +188,35 @@ static void configure() {
     DHCP_MEMORY.leaseTime = parameters[0];
     PORT->println(WARNING, "Changing the lease time requires YOU");
     PORT->println(WARNING, "to reboot everything for the new lease time.");
-    EEPROM->breakSeal();
+    EEPROM_FORCE;
     break;
   case IpAddress:
     DHCP_MEMORY.ipAddress[0] = parameters[0];
     DHCP_MEMORY.ipAddress[1] = parameters[1];
     DHCP_MEMORY.ipAddress[2] = parameters[2];
     DHCP_MEMORY.ipAddress[3] = parameters[3];
-    EEPROM->breakSeal();
+    EEPROM_FORCE;
     break;
   case IpDNS:
     DHCP_MEMORY.dnsAddress[0] = parameters[0];
     DHCP_MEMORY.dnsAddress[1] = parameters[1];
     DHCP_MEMORY.dnsAddress[2] = parameters[2];
     DHCP_MEMORY.dnsAddress[3] = parameters[3];
-    EEPROM->breakSeal();
+    EEPROM_FORCE;
     break;
   case IpSubnet:
     DHCP_MEMORY.subnetMask[0] = parameters[0];
     DHCP_MEMORY.subnetMask[1] = parameters[1];
     DHCP_MEMORY.subnetMask[2] = parameters[2];
     DHCP_MEMORY.subnetMask[3] = parameters[3];
-    EEPROM->breakSeal();
+    EEPROM_FORCE;
     break;
   case IpGW:
     DHCP_MEMORY.gatewayAddress[0] = parameters[0];
     DHCP_MEMORY.gatewayAddress[1] = parameters[1];
     DHCP_MEMORY.gatewayAddress[2] = parameters[2];
     DHCP_MEMORY.gatewayAddress[3] = parameters[3];
-    EEPROM->breakSeal();
+    EEPROM_FORCE;
     break;
   case None:
   default:
@@ -243,7 +243,7 @@ void increaseCount() {
   value = atoi(PORT->readParameter());
   if ((value >= 0) && (value <= 9)) {
     DHCP_MEMORY.ipAddressPop = value;
-    EEPROM->breakSeal();
+    EEPROM_FORCE;
   }
   for (int i = 0; i < DHCP_MEMORY.leaseNum; i++) { dhcpMemory.leaseStatus[i].status = DHCP_LEASE_AVAIL; }
   PORT->prompt();

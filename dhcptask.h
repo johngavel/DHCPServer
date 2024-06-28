@@ -9,7 +9,7 @@
 
 class DHCPTask : public Task {
 public:
-  DHCPTask() : Task("DHCPTask"), broadcast(nullptr), domainName("testsite.net") { memset(packetBuffer, 0, DHCP_MESSAGE_SIZE); };
+  DHCPTask() : Task("DHCPTask"), broadcast(nullptr) { memset(packetBuffer, 0, DHCP_MESSAGE_SIZE); };
   void setupTask();
   void executeTask();
 
@@ -17,7 +17,7 @@ private:
   EthernetUDP Udp;
   char packetBuffer[DHCP_MESSAGE_SIZE]; // buffer to hold incoming packet,
   IPAddress* broadcast;
-  char* domainName;
+  const char* domainName = "testsite.net";
 };
 
 #endif

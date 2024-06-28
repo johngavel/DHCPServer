@@ -57,7 +57,7 @@ int populatePacket(byte* packet, int currLoc, byte marker, byte* what, int dataS
   return dataSize + 2;
 }
 
-int DHCPreply(RIP_MSG* packet, int packetSize, byte* serverIP, char* domainName) {
+int DHCPreply(RIP_MSG* packet, int packetSize, byte* serverIP, const char* domainName) {
   byte blank[6] = {0, 0, 0, 0, 0, 0};
   if (packet->op != DHCP_BOOTREQUEST) return 0; // limited check that we're dealing with DHCP/BOOTP request
   byte OPToffset = (byte*) packet->OPT - (byte*) packet;

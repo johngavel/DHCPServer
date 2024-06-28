@@ -12,7 +12,7 @@
 extern DHCPMemory dhcpMemory;
 
 static ErrorPage errorPage;
-static CodePage codePage;
+static CodePage codePage("DHCPServer", "https://github.com/johngavel/DHCPServer");
 static UploadPage uploadPage;
 static UpgradePage upgradePage;
 static RebootPage rebootPage;
@@ -421,7 +421,7 @@ public:
     if (move) moveLease(from, to);
     if (deleteid) removeLease(id);
     parametersProcessed = true;
-    EEPROM->breakSeal();
+    EEPROM_FORCE;
   };
 } configDHCPPage;
 
@@ -584,7 +584,7 @@ public:
     }
     parametersProcessed = true;
     dhcpMemory.updateBroadcast();
-    EEPROM->breakSeal();
+    EEPROM_FORCE;
   }
 } configIPPage;
 
