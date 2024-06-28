@@ -7,6 +7,7 @@
 #include <ethernetmodule.h>
 #include <files.h>
 #include <gpio.h>
+#include <license.h>
 #include <onboardled.h>
 #include <serialport.h>
 #include <servermodule.h>
@@ -29,6 +30,7 @@ extern DHCPTask dhcpTask;
 extern DHCPMemory dhcpMemory;
 
 void setup() {
+  LICENSE;
   setup0Start();
 
   PORT->setup();
@@ -44,6 +46,7 @@ void setup() {
   setupServerModule();
 
   GPIO->setup();
+  LICENSE->setup();
   WATCHDOG->setup();
   setup0Complete();
 }
