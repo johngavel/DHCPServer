@@ -17,7 +17,7 @@ struct LeaseStatus {
 
 String leaseStatusString(long status);
 
-#define LEASESNUM 200
+#define LEASESNUM 100
 
 class DHCPMemory : public Data {
 public:

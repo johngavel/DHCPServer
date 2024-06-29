@@ -20,7 +20,6 @@ void setLease(byte lease, byte* __macAddress, long expires, byte status) {
     memcpy(DHCP_MEMORY.leasesMac[lease - 1].macAddress, __macAddress, 6);
     dhcpMemory.leaseStatus[lease - 1].expires = expires;
     dhcpMemory.leaseStatus[lease - 1].status = status;
-    EEPROM->breakSeal();
   }
 }
 
@@ -71,11 +70,13 @@ int DHCPreply(RIP_MSG* packet, int packetSize, byte* serverIP, const char* domai
   byte lease = getLease(packet->chaddr);
   byte response = DHCP_NAK;
   if (dhcpMessage == DHCP_DISCOVER) {
-    if (!lease) lease = getLease(blank); // use existing lease or get a new one
+    if (!lease) {
+      lease = getLease(blank); // use existing lease or get a new one
+      EEPROM->breakSeal();
+    }
     if (lease && !dhcpMemory.leaseStatus[lease - 1].ignore) {
       response = DHCP_OFFER;
       setLease(lease, packet->chaddr, millis() + 10000, DHCP_LEASE_OFFER); // 10s
-      EEPROM->breakSeal();
     }
   } else if (dhcpMessage == DHCP_REQUEST) {
     if (lease && !dhcpMemory.leaseStatus[lease - 1].ignore) {

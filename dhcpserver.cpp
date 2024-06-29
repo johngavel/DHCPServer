@@ -203,7 +203,7 @@ static bool removeLease(unsigned long __id) {
 
 void buildConfigLeaseTable(HTMLBuilder* html) {
   long current = millis();
-  html->println("Availabilty: ");
+  html->println("Availabilty (Max Range is " + String(LEASESNUM) + "): ");
   html->openTag("input",
                 "type=\"text\" maxlength=\"6\" size=\"6\" pattern=\"[^\\s]+\" value=\"" + String(DHCP_MEMORY.startAddressNumber) + "\" name=\"startAddress\"\"")
       ->closeTag();
