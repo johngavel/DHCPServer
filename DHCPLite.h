@@ -30,11 +30,6 @@
 //#define DHCP_LEASETIME ((long)60*60*24) // Lease Time: 1 day == { 00, 01, 51, 80 }
 //#define DHCP_LEASETIME ((long) 150) // Lease Time:
 
-/* DHCP lease status */
-#define DHCP_LEASE_AVAIL 0
-#define DHCP_LEASE_OFFER 1
-#define DHCP_LEASE_ACK 2
-
 /**
  * @brief	DHCP option and value (cf. RFC1533)
  */

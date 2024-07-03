@@ -2,6 +2,7 @@
 
 #include "DHCPLite.h"
 #include "dhcpmemory.h"
+#include "leases.h"
 
 #include <commonhtml.h>
 #include <serialport.h>
@@ -14,10 +15,13 @@ extern DHCPMemory dhcpMemory;
 static ErrorPage errorPage;
 static CodePage codePage("DHCPServer", "https://github.com/johngavel/DHCPServer");
 static UploadPage uploadPage;
+static ExportPage exportPage;
+static ImportPage importPage;
 static UpgradePage upgradePage;
 static RebootPage rebootPage;
 static UpgradeProcessingFilePage upgradeProcessingFilePage;
 static UploadProcessingFilePage uploadProcessingFilePage;
+static ImportProcessingFilePage importProcessingFilePage;
 
 void buildLeaseTable(HTMLBuilder* html) {
   long current = millis();
@@ -40,33 +44,26 @@ void buildLeaseTable(HTMLBuilder* html) {
   html->closeTag()->println();
 
   for (int i = 0; i < DHCP_MEMORY.leaseNum; i++) {
-    byte blank[6] = {0, 0, 0, 0, 0, 0};
     byte ipAddress[4] = {0, 0, 0, 0};
-    if (memcmp(DHCP_MEMORY.leasesMac[i].macAddress, blank, 6) != 0) {
-      memcpy(ipAddress, DHCP_MEMORY.ipAddress, 4);
-      ipAddress[0] = ipAddress[0] & DHCP_MEMORY.subnetMask[0];
-      ipAddress[1] = ipAddress[1] & DHCP_MEMORY.subnetMask[1];
-      ipAddress[2] = ipAddress[2] & DHCP_MEMORY.subnetMask[2];
-      ipAddress[3] = ipAddress[3] & DHCP_MEMORY.subnetMask[3];
-      ipAddress[2] += DHCP_MEMORY.ipAddressPop & 0xFF;
-      ipAddress[3] += (i + DHCP_MEMORY.startAddressNumber) & 0xFF;
+    if (Lease::validLease(i)) {
+      Lease::getLeaseIPAddress(i, ipAddress);
       html->openTrTag()->println();
       html->openTdTag()
-          ->closeTag("input", "type=\"checkbox\" id=\"nak" + String(i) + "\" name=\"nak" + String(i) + "\" disabled" +
-                                  ((dhcpMemory.leaseStatus[i].ignore) ? " checked " : " "))
+          ->closeTag("input",
+                     "type=\"checkbox\" id=\"nak" + String(i) + "\" name=\"nak" + String(i) + "\" disabled" + ((Lease::ignoreLease(i)) ? " checked " : " "))
           ->closeTag()
           ->println();
       html->tdTag(getIPString(ipAddress))->println();
-      html->tdTag(getMacString(DHCP_MEMORY.leasesMac[i].macAddress))->println();
-      if (dhcpMemory.leaseStatus[i].expires > current)
-        html->tdTag(timeString(((dhcpMemory.leaseStatus[i].expires - current) / 1000)));
+      html->tdTag(getMacString(Lease::getLeaseMACAddress(i)))->println();
+      if (!Lease::getLeaseExpired(i, current))
+        html->tdTag(timeString(Lease::getLeaseExpiresSec(i, current)));
       else
-        html->tdTag("- " + timeString(((current - dhcpMemory.leaseStatus[i].expires) / 1000)), "bgcolor=\"red\"");
+        html->tdTag("- " + timeString(Lease::getLeaseExpiresSec(i, current)), "bgcolor=\"red\"");
       html->println();
       if (dhcpMemory.leaseStatus[i].status == DHCP_LEASE_AVAIL)
-        html->tdTag(leaseStatusString(dhcpMemory.leaseStatus[i].status), "bgcolor=\"red\"");
+        html->tdTag(Lease::leaseStatusString(Lease::getLeaseStatus(i)), "bgcolor=\"red\"");
       else
-        html->tdTag(leaseStatusString(dhcpMemory.leaseStatus[i].status));
+        html->tdTag(Lease::leaseStatusString(Lease::getLeaseStatus(i)));
       html->println();
       html->closeTag()->println();
     }
@@ -85,9 +82,9 @@ public:
     conductAction();
     sendPageBegin(html, true, refresh);
     html->print("Lease Time: ");
-    html->println(timeString(DHCP_MEMORY.leaseTime));
+    html->println(timeString(Lease::getLeaseTime()));
     html->brTag()->print("Increment: ");
-    html->println(String(DHCP_MEMORY.ipAddressPop))->brTag();
+    html->println(String(Lease::Lease::getIncrementPop()))->brTag();
     buildLeaseTable(html);
     html->openTag("table", "class=\"center\"")->openTrTag()->println();
     html->openTdTag()->openTag("a", "href=\"/dhcpconfig\"")->print("DHCP Server Config")->closeTag()->closeTag()->closeTag()->println();
@@ -136,6 +133,8 @@ public:
 
     html->openTag("table", "class=\"center\"");
     html->openTrTag()->openTdTag()->openTag("a", "href=\"/ipconfig\"")->print("Configure IP Addresses")->closeTag()->closeTag()->closeTag()->println();
+    html->openTrTag()->openTdTag()->openTag("a", "href=\"/import\"")->print("Import Server Configuration")->closeTag()->closeTag()->closeTag()->println();
+    html->openTrTag()->openTdTag()->openTag("a", "href=\"/export\"")->print("Export Server Configuration")->closeTag()->closeTag()->closeTag()->println();
     html->openTrTag()->openTdTag()->openTag("a", "href=\"/upgrade\"")->print("Upgrade the DHCP Server")->closeTag()->closeTag()->closeTag()->println();
     html->openTrTag()->openTdTag()->openTag("a", "href=\"/code\"")->print("Source Code of the DHCP Server")->closeTag()->closeTag()->closeTag()->println();
     html->closeTag()->brTag()->println();
@@ -169,34 +168,20 @@ public:
 static bool moveLease(unsigned long __from, unsigned long __to) {
   unsigned long from = __from - DHCP_MEMORY.startAddressNumber;
   unsigned long to = __to - DHCP_MEMORY.startAddressNumber;
-  byte blank[6] = {0, 0, 0, 0, 0, 0};
   bool success = false;
-  if (from < DHCP_MEMORY.leaseNum) {
-    if (to < DHCP_MEMORY.leaseNum) {
-      if (memcmp(blank, DHCP_MEMORY.leasesMac[to].macAddress, 6) == 0) {
-        memcpy(DHCP_MEMORY.leasesMac[to].macAddress, DHCP_MEMORY.leasesMac[from].macAddress, 6);
-        memcpy(DHCP_MEMORY.leasesMac[from].macAddress, blank, 6);
-        dhcpMemory.leaseStatus[to].expires = dhcpMemory.leaseStatus[from].expires;
-        dhcpMemory.leaseStatus[from].expires = 0;
-        dhcpMemory.leaseStatus[to].status = dhcpMemory.leaseStatus[from].status = DHCP_LEASE_AVAIL;
-        success = true;
-      }
-    }
+  if (Lease::validLeaseNumber(from) && Lease::validLeaseNumber(to)) {
+    success = true;
+    Lease::swapLease(from, to);
   }
   return success;
 }
 
 static bool removeLease(unsigned long __id) {
   unsigned long from = __id - DHCP_MEMORY.startAddressNumber;
-  byte blank[6] = {0, 0, 0, 0, 0, 0};
   bool success = false;
-  if (from < DHCP_MEMORY.leaseNum) {
-    if (memcmp(blank, DHCP_MEMORY.leasesMac[from].macAddress, 6) != 0) {
-      memcpy(DHCP_MEMORY.leasesMac[from].macAddress, blank, 6);
-      dhcpMemory.leaseStatus[from].expires = 0;
-      dhcpMemory.leaseStatus[from].status = DHCP_LEASE_AVAIL;
-      success = true;
-    }
+  if (Lease::validLease(from)) {
+    Lease::deleteLease(from);
+    success = true;
   }
   return success;
 }
@@ -230,33 +215,26 @@ void buildConfigLeaseTable(HTMLBuilder* html) {
   html->closeTag()->println();
 
   for (int i = 0; i < DHCP_MEMORY.leaseNum; i++) {
-    byte blank[6] = {0, 0, 0, 0, 0, 0};
     byte ipAddress[4] = {0, 0, 0, 0};
-    if (memcmp(DHCP_MEMORY.leasesMac[i].macAddress, blank, 6) != 0) {
+    if (Lease::validLease(i)) {
       memcpy(ipAddress, DHCP_MEMORY.ipAddress, 4);
-      ipAddress[0] = ipAddress[0] & DHCP_MEMORY.subnetMask[0];
-      ipAddress[1] = ipAddress[1] & DHCP_MEMORY.subnetMask[1];
-      ipAddress[2] = ipAddress[2] & DHCP_MEMORY.subnetMask[2];
-      ipAddress[3] = ipAddress[3] & DHCP_MEMORY.subnetMask[3];
-      ipAddress[2] += DHCP_MEMORY.ipAddressPop & 0xFF;
-      ipAddress[3] += (i + DHCP_MEMORY.startAddressNumber) & 0xFF;
+      Lease::getLeaseIPAddress(i, ipAddress);
       html->openTrTag()->println();
       html->openTdTag()
-          ->closeTag("input",
-                     "type=\"checkbox\" id=\"nak" + String(i) + "\" name=\"nak" + String(i) + "\"" + ((dhcpMemory.leaseStatus[i].ignore) ? " checked " : " "))
+          ->closeTag("input", "type=\"checkbox\" id=\"nak" + String(i) + "\" name=\"nak" + String(i) + "\"" + ((Lease::ignoreLease(i)) ? " checked " : " "))
           ->closeTag()
           ->println();
       html->tdTag(getIPString(ipAddress))->println();
-      html->tdTag(getMacString(DHCP_MEMORY.leasesMac[i].macAddress))->println();
-      if (dhcpMemory.leaseStatus[i].expires > current)
-        html->tdTag(timeString(((dhcpMemory.leaseStatus[i].expires - current) / 1000)));
+      html->tdTag(getMacString(Lease::getLeaseMACAddress(i)))->println();
+      if (!Lease::getLeaseExpired(i, current))
+        html->tdTag(timeString(Lease::getLeaseExpiresSec(i, current)));
       else
-        html->tdTag("- " + timeString(((current - dhcpMemory.leaseStatus[i].expires) / 1000)), "bgcolor=\"red\"");
+        html->tdTag("- " + timeString(Lease::getLeaseExpiresSec(i, current)), "bgcolor=\"red\"");
       html->println();
-      if (dhcpMemory.leaseStatus[i].status == DHCP_LEASE_AVAIL)
-        html->tdTag(leaseStatusString(dhcpMemory.leaseStatus[i].status), "bgcolor=\"red\"");
+      if (Lease::getLeaseStatus(i) == DHCP_LEASE_AVAIL)
+        html->tdTag(Lease::leaseStatusString(Lease::getLeaseStatus(i)), "bgcolor=\"red\"");
       else
-        html->tdTag(leaseStatusString(dhcpMemory.leaseStatus[i].status));
+        html->tdTag(Lease::leaseStatusString(Lease::getLeaseStatus(i)));
       html->println();
       html->closeTag()->println();
     }
@@ -277,7 +255,7 @@ public:
         ->tdTag("")
         ->tdTag("Lease Time (s)")
         ->openTdTag()
-        ->openTag("input", "type=\"text\" maxlength=\"6\" size=\"6\" pattern=\"[^\\s]+\" value=\"" + String(DHCP_MEMORY.leaseTime) + "\" name=\"leaseTime\"\"")
+        ->openTag("input", "type=\"text\" maxlength=\"6\" size=\"6\" pattern=\"[^\\s]+\" value=\"" + String(Lease::getLeaseTime()) + "\" name=\"leaseTime\"\"")
         ->closeTag()
         ->closeTag()
         ->closeTag()
@@ -287,7 +265,7 @@ public:
         ->tdTag("Address Increment")
         ->openTdTag()
         ->openTag("input",
-                  "type=\"text\" maxlength=\"1\" size=\"1\" pattern=\"[^\\s]+\" value=\"" + String(DHCP_MEMORY.ipAddressPop) + "\" name=\"increment\"\"")
+                  "type=\"text\" maxlength=\"1\" size=\"1\" pattern=\"[^\\s]+\" value=\"" + String(Lease::Lease::getIncrementPop()) + "\" name=\"increment\"\"")
         ->closeTag()
         ->closeTag()
         ->closeTag()
@@ -380,44 +358,57 @@ public:
     unsigned long tempLeaseNum = 0;
     bool move = false;
     bool deleteid = false;
-    for (int i = 0; i < LEASESNUM; i++) dhcpMemory.leaseStatus[i].ignore = false;
-    for (int i = 0; i < list.parameterCount; i++) {
-      dhcpMemory.leaseStatus[i].ignore = false;
-      if (list.parameters[i].parameter.startsWith("nak")) {
-        int nakIndex = list.parameters[i].parameter.substring(3).toInt();
-        dhcpMemory.leaseStatus[nakIndex].ignore = true;
-      } else if (list.parameters[i].parameter.equals("leaseTime")) {
-        DHCP_MEMORY.leaseTime = list.parameters[i].value.toInt();
-      } else if (list.parameters[i].parameter.equals("increment")) {
-        DHCP_MEMORY.ipAddressPop = list.parameters[i].value.toInt();
-      } else if (list.parameters[i].parameter.equals("from")) {
-        from = list.parameters[i].value.toInt();
-      } else if (list.parameters[i].parameter.equals("to")) {
-        to = list.parameters[i].value.toInt();
-      } else if (list.parameters[i].parameter.equals("deleteid")) {
-        id = list.parameters[i].value.toInt();
-      } else if (list.parameters[i].parameter.equals("move")) {
+    for (int i = 0; i < LEASESNUM; i++) Lease::setIgnore(i, false);
+    for (int i = 0; i < LIST->getCount(); i++) {
+      Lease::setIgnore(i, false);
+      if (LIST->getParameter(i).startsWith("nak")) {
+        int nakIndex = LIST->getParameter(i).substring(3).toInt();
+        Lease::setIgnore(nakIndex, true);
+        ;
+      } else if (LIST->getParameter(i).equals("leaseTime")) {
+        Lease::setLeaseTime(LIST->getValue(i).toInt());
+      } else if (LIST->getParameter(i).equals("increment")) {
+        Lease::setIncrementPop(LIST->getValue(i).toInt());
+      } else if (LIST->getParameter(i).equals("from")) {
+        from = LIST->getValue(i).toInt();
+      } else if (LIST->getParameter(i).equals("to")) {
+        to = LIST->getValue(i).toInt();
+      } else if (LIST->getParameter(i).equals("deleteid")) {
+        id = LIST->getValue(i).toInt();
+      } else if (LIST->getParameter(i).equals("move")) {
         move = true;
-      } else if (list.parameters[i].parameter.equals("delete")) {
+      } else if (LIST->getParameter(i).equals("delete")) {
         deleteid = true;
-      } else if (list.parameters[i].parameter.equals("startAddress")) {
-        tempStartAddress = list.parameters[i].value.toInt();
-      } else if (list.parameters[i].parameter.equals("leaseNum")) {
-        tempLeaseNum = list.parameters[i].value.toInt();
-      } else if (list.parameters[i].parameter.equals("deleteall")) {
-        if (list.parameters[i].value == "all") {
+      } else if (LIST->getParameter(i).equals("startAddress")) {
+        tempStartAddress = LIST->getValue(i).toInt();
+      } else if (LIST->getParameter(i).equals("leaseNum")) {
+        tempLeaseNum = LIST->getValue(i).toInt();
+      } else if (LIST->getParameter(i).equals("deleteall")) {
+        if (LIST->getValue(i) == "all") {
           memset(DHCP_MEMORY.leasesMac, 0, sizeof(DHCP_MEMORY.leasesMac));
           memset(dhcpMemory.leaseStatus, 0, sizeof(DHCPMemory::leaseStatus));
           PORT->println(WARNING, "Leases table deleted!");
         }
       } else
-        PORT->println(ERROR, "Unknown parameter when processing DHCP Configuration Page: " + list.parameters[i].parameter);
+        PORT->println(ERROR, "Unknown parameter when processing DHCP Configuration Page: " + LIST->getParameter(i));
     }
-    if ((tempStartAddress > 1) && (tempStartAddress < 255))
-      if ((tempLeaseNum >= tempStartAddress) && ((tempLeaseNum - tempStartAddress + 1) < LEASESNUM) && (tempLeaseNum < 255)) {
-        DHCP_MEMORY.startAddressNumber = tempStartAddress;
-        DHCP_MEMORY.leaseNum = tempLeaseNum - tempStartAddress + 1;
-      }
+
+    // The Range of the Addresses is as follows
+    // Availabilty:  {tempStartAddress} - {tempLeaseNum}
+    //                     101          -      200
+    // Fourth Octet of the IP Address.
+    // Convert the above two numbers to:
+    //   Start Address, fourth octet of the IP Address.
+    //   LeaseNum, the number of leases to give out.
+    if ((tempStartAddress > 1) && (tempStartAddress < 255))       // Validate Input
+      if ((tempLeaseNum > 1) && (tempLeaseNum < 255))             // Validate Input
+        if (tempLeaseNum >= tempStartAddress)                     // End of the Range has to be greater than the beginning.
+          if ((tempLeaseNum - tempStartAddress + 1) <= LEASESNUM) // Valid Number of Leases available.
+          {
+            DHCP_MEMORY.startAddressNumber = tempStartAddress;
+            DHCP_MEMORY.leaseNum = tempLeaseNum - tempStartAddress + 1;
+          }
+
     if (move) moveLease(from, to);
     if (deleteid) removeLease(id);
     parametersProcessed = true;
@@ -546,39 +537,39 @@ public:
   }
 
   void processParameterList() {
-    for (int i = 0; i < list.parameterCount; i++) {
-      if (list.parameters[i].parameter.equals("ip0"))
-        DHCP_MEMORY.ipAddress[0] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("ip1"))
-        DHCP_MEMORY.ipAddress[1] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("ip2"))
-        DHCP_MEMORY.ipAddress[2] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("ip3"))
-        DHCP_MEMORY.ipAddress[3] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("sm0"))
-        DHCP_MEMORY.subnetMask[0] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("sm1"))
-        DHCP_MEMORY.subnetMask[1] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("sm2"))
-        DHCP_MEMORY.subnetMask[2] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("sm3"))
-        DHCP_MEMORY.subnetMask[3] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("ga0"))
-        DHCP_MEMORY.gatewayAddress[0] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("ga1"))
-        DHCP_MEMORY.gatewayAddress[1] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("ga2"))
-        DHCP_MEMORY.gatewayAddress[2] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("ga3"))
-        DHCP_MEMORY.gatewayAddress[3] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("da0"))
-        DHCP_MEMORY.dnsAddress[0] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("da1"))
-        DHCP_MEMORY.dnsAddress[1] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("da2"))
-        DHCP_MEMORY.dnsAddress[2] = list.parameters[i].value.toInt();
-      else if (list.parameters[i].parameter.equals("da3"))
-        DHCP_MEMORY.dnsAddress[3] = list.parameters[i].value.toInt();
+    for (int i = 0; i < LIST->getCount(); i++) {
+      if (LIST->getParameter(i).equals("ip0"))
+        DHCP_MEMORY.ipAddress[0] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("ip1"))
+        DHCP_MEMORY.ipAddress[1] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("ip2"))
+        DHCP_MEMORY.ipAddress[2] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("ip3"))
+        DHCP_MEMORY.ipAddress[3] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("sm0"))
+        DHCP_MEMORY.subnetMask[0] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("sm1"))
+        DHCP_MEMORY.subnetMask[1] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("sm2"))
+        DHCP_MEMORY.subnetMask[2] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("sm3"))
+        DHCP_MEMORY.subnetMask[3] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("ga0"))
+        DHCP_MEMORY.gatewayAddress[0] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("ga1"))
+        DHCP_MEMORY.gatewayAddress[1] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("ga2"))
+        DHCP_MEMORY.gatewayAddress[2] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("ga3"))
+        DHCP_MEMORY.gatewayAddress[3] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("da0"))
+        DHCP_MEMORY.dnsAddress[0] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("da1"))
+        DHCP_MEMORY.dnsAddress[1] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("da2"))
+        DHCP_MEMORY.dnsAddress[2] = LIST->getValue(i).toInt();
+      else if (LIST->getParameter(i).equals("da3"))
+        DHCP_MEMORY.dnsAddress[3] = LIST->getValue(i).toInt();
       else
         PORT->println(ERROR, "Unknown parameter when processing IP Configuration Page.");
     }
@@ -592,12 +583,15 @@ void setupServerModule() {
   SERVER->setRootPage(&indexPage);
   SERVER->setUpgradePage(&upgradeProcessingFilePage);
   SERVER->setUploadPage(&uploadProcessingFilePage);
+  SERVER->setUploadPage(&importProcessingFilePage);
   SERVER->setErrorPage(&errorPage);
   SERVER->setPage(&indexPage);
   SERVER->setPage(&serverPage);
   SERVER->setPage(&codePage);
   SERVER->setPage(&upgradePage);
   SERVER->setPage(&uploadPage);
+  SERVER->setPage(&exportPage);
+  SERVER->setPage(&importPage);
   SERVER->setPage(&rebootPage);
   SERVER->setPage(&configIPPage);
   SERVER->setFormProcessingPage(&configIPPage);

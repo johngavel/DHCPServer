@@ -1,7 +1,10 @@
 #include "dhcpmemory.h"
 
 #include "DHCPLite.h"
+#include "leases.h"
 
+#include <asciitable.h>
+#include <export.h>
 #include <serialport.h>
 #include <stringutils.h>
 #include <sys/_types.h>
@@ -15,6 +18,8 @@ static void moveLease();
 static void removeLease();
 static void startAddress();
 static void leaseNum();
+static void importMemory();
+static void exportMemory();
 
 void DHCPMemory::updateBroadcast() {
   broadcastAddress[0] = ~memory.mem.subnetMask[0] | memory.mem.ipAddress[0];
@@ -31,6 +36,8 @@ void DHCPMemory::setup() {
   PORT->addCmd("remove", "[n]", "Removes the lease from the list.", removeLease);
   PORT->addCmd("start", "[n]", "Changes the start octect address", startAddress);
   PORT->addCmd("num", "[n]", "Restricts the number of leases available.", leaseNum);
+  PORT->addCmd("export", "", "Export Configuration to File System.", exportMemory);
+  PORT->addCmd("import", "", "Import Configuration to File System.", importMemory);
   updateBroadcast();
 }
 
@@ -185,7 +192,7 @@ static void configure() {
   }
   switch (item) {
   case LeaseTime:
-    DHCP_MEMORY.leaseTime = parameters[0];
+    Lease::setLeaseTime(parameters[0]);
     PORT->println(WARNING, "Changing the lease time requires YOU");
     PORT->println(WARNING, "to reboot everything for the new lease time.");
     EEPROM_FORCE;
@@ -222,7 +229,6 @@ static void configure() {
   default:
     PORT->println(HELP, "config lt [n]      ", "- sets the lease time in seconds on DHCP Server");
     PORT->println(HELP, "config ip [n] [n] [n] [n]     ", "- Sets the IP address n.n.n.n");
-    PORT->println(HELP, "config bc [n] [n] [n] [n]     ", "- Sets the Broadcast address n.n.n.n");
     PORT->println(HELP, "config dns [n] [n] [n] [n]    ", "- Sets the DNS address n.n.n.n");
     PORT->println(HELP, "config gw [n] [n] [n] [n]     ", "- Sets the Gateway address n.n.n.n");
     PORT->println(HELP, "config subnet [n] [n] [n] [n] ", "- Sets the Subnet Mask n.n.n.n");
@@ -241,92 +247,62 @@ void increaseCount() {
   int value = 0;
   PORT->println();
   value = atoi(PORT->readParameter());
-  if ((value >= 0) && (value <= 9)) {
-    DHCP_MEMORY.ipAddressPop = value;
-    EEPROM_FORCE;
-  }
-  for (int i = 0; i < DHCP_MEMORY.leaseNum; i++) { dhcpMemory.leaseStatus[i].status = DHCP_LEASE_AVAIL; }
+  if (Lease::setIncrementPop(value)) { EEPROM_FORCE; }
   PORT->prompt();
 }
 
-String leaseStatusString(long status) {
-  String string;
-  switch (status) {
-  case DHCP_LEASE_AVAIL: string = "DHCP_LEASE_AVAIL"; break;
-  case DHCP_LEASE_OFFER: string = "DHCP_LEASE_OFFER"; break;
-  case DHCP_LEASE_ACK: string = "DHCP_LEASE_ACK"; break;
-
-  default: string = "UNKNOWN"; break;
-  }
-  return string;
-}
-
 void showLeases() {
+  AsciiTable table;
   byte ipAddress[4] = {0, 0, 0, 0};
   long current = millis();
   PORT->println();
   PORT->print(INFO, "Lease Time: ");
   PORT->println(INFO, String(DHCP_MEMORY.leaseTime));
   PORT->print(INFO, "Increment: ");
-  PORT->println(INFO, String(DHCP_MEMORY.ipAddressPop));
+  PORT->println(INFO, String(Lease::Lease::getIncrementPop()));
   PORT->println(INFO, "Availabilty: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
 
-  PORT->println();
-  PORT->println(PROMPT, "IP Address      | MAC Address       | Expires (s) | Status           ");
-  PORT->println(PROMPT, "----------------|-------------------|-------------|------------------");
+  table.addColumn(Normal, "IpAddress", 17);
+  table.addColumn(Green, "MAC Address", 19);
+  table.addColumn(Red, "Ignore", 8);
+  table.addColumn(Cyan, "Expires (s)", 13);
+  table.addColumn(Yellow, "Status", 20);
 
-  String ipaddress = String(DHCP_MEMORY.ipAddress[0]) + "." + String(DHCP_MEMORY.ipAddress[1]) + "." + String(DHCP_MEMORY.ipAddress[2]) + "." +
-                     String(DHCP_MEMORY.ipAddress[3]);
-  String mac = " " + getMacString(DHCP_MEMORY.macAddress);
-  String indentifier = ipaddress + tab(ipaddress.length(), 16) + "|" + mac + tab(mac.length(), 19) + "|";
-  String expires = " N/A";
-  String status = " DHCP Server";
-  String data = expires + tab(expires.length(), 13) + "|" + status;
-  PORT->println(HELP, indentifier, data);
+  table.printHeader();
+
+  String ipaddress = getIPString(DHCP_MEMORY.ipAddress);
+  String mac = getMacString(DHCP_MEMORY.macAddress);
+  String ignore = "N/A";
+  String expires = "N/A";
+  String status = "DHCP Server";
+  table.printData(ipaddress, mac, ignore, expires, status);
 
   for (int i = 0; i < DHCP_MEMORY.leaseNum; i++) {
-    byte blank[6] = {0, 0, 0, 0, 0, 0};
-    if (memcmp(DHCP_MEMORY.leasesMac[i].macAddress, blank, 6) != 0) {
-      memcpy(ipAddress, DHCP_MEMORY.ipAddress, 4);
-      ipAddress[0] = ipAddress[0] & DHCP_MEMORY.subnetMask[0];
-      ipAddress[1] = ipAddress[1] & DHCP_MEMORY.subnetMask[1];
-      ipAddress[2] = ipAddress[2] & DHCP_MEMORY.subnetMask[2];
-      ipAddress[3] = ipAddress[3] & DHCP_MEMORY.subnetMask[3];
-      ipaddress = String(ipAddress[0]) + "." + String(ipAddress[1]) + "." + String(ipAddress[2] + DHCP_MEMORY.ipAddressPop) + "." +
-                  String(ipAddress[3] + i + DHCP_MEMORY.startAddressNumber);
-      mac = " " + getMacString(DHCP_MEMORY.leasesMac[i].macAddress);
-      indentifier = ipaddress + tab(ipaddress.length(), 16) + "|" + mac + tab(mac.length(), 19) + "|";
-      expires = " ";
-      if (dhcpMemory.leaseStatus[i].expires > current)
-        expires += timeString(((dhcpMemory.leaseStatus[i].expires - current) / 1000));
-      else
-        expires += "- " + timeString(((current - dhcpMemory.leaseStatus[i].expires) / 1000));
-      status = " " + leaseStatusString(dhcpMemory.leaseStatus[i].status);
-      data = expires + tab(expires.length(), 13) + "|" + status;
-      PORT->println(HELP, indentifier, data);
+    if (Lease::validLease(i)) {
+      Lease::getLeaseIPAddress(i, ipAddress);
+      ipaddress = getIPString(ipAddress);
+      mac = getMacString(Lease::getLeaseMACAddress(i));
+      ignore = (Lease::ignoreLease(i)) ? "True" : "False";
+      expires = "";
+      if (Lease::getLeaseExpired(i, current)) expires += "- ";
+      expires += timeString(Lease::getLeaseExpiresSec(i, current));
+      status = Lease::leaseStatusString(dhcpMemory.leaseStatus[i].status);
+      table.printData(ipaddress, mac, ignore, expires, status);
     }
   }
-  PORT->println();
+  table.printDone("Lease Table");
   PORT->prompt();
 }
 
 void moveLease() {
-  byte blank[6] = {0, 0, 0, 0, 0, 0};
   bool success = false;
   PORT->println();
   int from = atoi(PORT->readParameter()) - DHCP_MEMORY.startAddressNumber;
   int to = atoi(PORT->readParameter()) - DHCP_MEMORY.startAddressNumber;
-  if ((from >= 0) && (from < DHCP_MEMORY.leaseNum)) {
-    if ((to >= 0) && (to < DHCP_MEMORY.leaseNum)) {
-      if (memcmp(blank, DHCP_MEMORY.leasesMac[to].macAddress, 6) == 0) {
-        memcpy(DHCP_MEMORY.leasesMac[to].macAddress, DHCP_MEMORY.leasesMac[from].macAddress, 6);
-        memcpy(DHCP_MEMORY.leasesMac[from].macAddress, blank, 6);
-        dhcpMemory.leaseStatus[to].expires = dhcpMemory.leaseStatus[from].expires;
-        dhcpMemory.leaseStatus[from].expires = 0;
-        dhcpMemory.leaseStatus[to].status = dhcpMemory.leaseStatus[from].status = DHCP_LEASE_AVAIL;
-        success = true;
-      } else
-        PORT->println(ERROR, "Lease already occupied!");
+  if (Lease::validLeaseNumber(from)) {
+    if (Lease::validLeaseNumber(to)) {
+      Lease::swapLease(from, to);
+      success = true;
     } else
       PORT->println(ERROR, "To index is invalid");
   } else
@@ -336,23 +312,17 @@ void moveLease() {
 }
 
 void removeLease() {
-  byte blank[6] = {0, 0, 0, 0, 0, 0};
   bool success = false;
   PORT->println();
   String parameter = PORT->readParameter();
   if (parameter == "all") {
     success = true;
-    for (int i = 0; i < LEASESNUM; i++) {
-      memset(DHCP_MEMORY.leasesMac, 0, sizeof(DHCP_MEMORY.leasesMac));
-      memset(dhcpMemory.leaseStatus, 0, sizeof(DHCPMemory::leaseStatus));
-    }
+    for (int i = 0; i < LEASESNUM; i++) { Lease::deleteLease(i); }
   } else {
     int from = parameter.toInt() - DHCP_MEMORY.startAddressNumber;
-    if ((from >= 0) && (from < DHCP_MEMORY.leaseNum)) {
-      if (memcmp(blank, DHCP_MEMORY.leasesMac[from].macAddress, 6) != 0) {
-        memcpy(DHCP_MEMORY.leasesMac[from].macAddress, blank, 6);
-        dhcpMemory.leaseStatus[from].expires = 0;
-        dhcpMemory.leaseStatus[from].status = DHCP_LEASE_AVAIL;
+    if (Lease::validLeaseNumber(from)) {
+      if (Lease::validLease(from)) {
+        Lease::deleteLease(from);
         success = true;
       } else
         PORT->println(ERROR, "Lease already empty!");
@@ -393,4 +363,68 @@ void leaseNum() {
   PORT->println();
   PORT->println((success) ? PASSED : FAILED, "Change Number of Leases Available Complete");
   PORT->prompt();
+}
+
+void exportMemory() {
+  DHCP_DATA->exportMem();
+  PORT->println();
+  PORT->println(PASSED, "Export Complete.");
+  PORT->prompt();
+}
+
+void DHCPMemory::exportMem() {
+  Export exportMem(MEMORY_CONFIG_FILE);
+  exportMem.exportData("mac", DHCP_MEMORY.macAddress, 6);
+  exportMem.exportData("ip", DHCP_MEMORY.ipAddress, 4);
+  exportMem.exportData("startAddressNumber", DHCP_MEMORY.startAddressNumber);
+  exportMem.exportData("leaseNum", DHCP_MEMORY.leaseNum);
+  exportMem.exportData("leaseTime", DHCP_MEMORY.leaseTime);
+  exportMem.exportData("ipAddressPop", DHCP_MEMORY.ipAddressPop);
+  exportMem.exportData("dnsAddress", DHCP_MEMORY.dnsAddress, 4);
+  exportMem.exportData("subnetMask", DHCP_MEMORY.subnetMask, 4);
+  exportMem.exportData("gatewayAddress", DHCP_MEMORY.gatewayAddress, 4);
+  for (int i = 0; i < LEASESNUM; i++) { exportMem.exportData("leasesMac" + String(i), DHCP_MEMORY.leasesMac[i].macAddress, 6); }
+  exportMem.close();
+}
+
+void importMemory() {
+  DHCP_DATA->importMem();
+  PORT->println();
+  PORT->println(PASSED, "Import Complete.");
+  PORT->prompt();
+}
+
+void DHCPMemory::importMem() {
+  Import importMem(MEMORY_CONFIG_FILE);
+  String parameter;
+  String value;
+  while (importMem.importParameter(&parameter)) {
+    if (parameter == "mac")
+      importMem.importData(DHCP_MEMORY.macAddress, 6);
+    else if (parameter == "ip")
+      importMem.importData(DHCP_MEMORY.ipAddress, 4);
+    else if (parameter == "startAddressNumber")
+      importMem.importData(&DHCP_MEMORY.startAddressNumber);
+    else if (parameter == "leaseNum")
+      importMem.importData(&DHCP_MEMORY.leaseNum);
+    else if (parameter == "leaseTime")
+      importMem.importData(&DHCP_MEMORY.leaseTime);
+    else if (parameter == "ipAddressPop")
+      importMem.importData(&DHCP_MEMORY.ipAddressPop);
+    else if (parameter == "dnsAddress")
+      importMem.importData(DHCP_MEMORY.dnsAddress, 4);
+    else if (parameter == "subnetMask")
+      importMem.importData(DHCP_MEMORY.subnetMask, 4);
+    else if (parameter == "gatewayAddress")
+      importMem.importData(DHCP_MEMORY.gatewayAddress, 4);
+    else if (parameter.startsWith("leasesMac")) {
+      int macIndex = parameter.substring(String("leasesMac").length()).toInt();
+      importMem.importData(DHCP_MEMORY.leasesMac[macIndex].macAddress, 6);
+    } else {
+      importMem.importData(&value);
+      PORT->println(ERROR, "Unknown Parameter in File: " + parameter + " - " + value);
+    }
+  }
+
+  EEPROM_FORCE;
 }

@@ -15,8 +15,6 @@ struct LeaseStatus {
   long status;
 };
 
-String leaseStatusString(long status);
-
 #define LEASESNUM 100
 
 class DHCPMemory : public Data {
@@ -49,6 +47,8 @@ public:
   unsigned long getLength();
   void updateBroadcast();
   byte broadcastAddress[4];
+  void exportMem();
+  void importMem();
 
 private:
 };
