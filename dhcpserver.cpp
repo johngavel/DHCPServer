@@ -5,6 +5,7 @@
 #include "leases.h"
 
 #include <commonhtml.h>
+#include <ethernetmodule.h>
 #include <serialport.h>
 #include <servermodule.h>
 #include <stringutils.h>
@@ -387,10 +388,10 @@ public:
         if (LIST->getValue(i) == "all") {
           memset(DHCP_MEMORY.leasesMac, 0, sizeof(DHCP_MEMORY.leasesMac));
           memset(dhcpMemory.leaseStatus, 0, sizeof(DHCPMemory::leaseStatus));
-          PORT->println(WARNING, "Leases table deleted!");
+          CONSOLE->println(WARNING, "Leases table deleted!");
         }
       } else
-        PORT->println(ERROR, "Unknown parameter when processing DHCP Configuration Page: " + LIST->getParameter(i));
+        CONSOLE->println(ERROR, "Unknown parameter when processing DHCP Configuration Page: " + LIST->getParameter(i));
     }
 
     // The Range of the Addresses is as follows
@@ -571,7 +572,7 @@ public:
       else if (LIST->getParameter(i).equals("da3"))
         DHCP_MEMORY.dnsAddress[3] = LIST->getValue(i).toInt();
       else
-        PORT->println(ERROR, "Unknown parameter when processing IP Configuration Page.");
+        CONSOLE->println(ERROR, "Unknown parameter when processing IP Configuration Page.");
     }
     parametersProcessed = true;
     dhcpMemory.updateBroadcast();

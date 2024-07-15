@@ -8,18 +8,21 @@
 #include <serialport.h>
 #include <stringutils.h>
 #include <sys/_types.h>
+#include <termcmd.h>
+#include <terminal.h>
 
 DHCPMemory dhcpMemory;
 
-static void configure();
-static void increaseCount();
-static void showLeases();
-static void moveLease();
-static void removeLease();
-static void startAddress();
-static void leaseNum();
-static void importMemory();
-static void exportMemory();
+static void configure(Terminal* terminal);
+static void increaseCount(Terminal* terminal);
+static void showLeases(Terminal* terminal);
+static void moveLease(Terminal* terminal);
+static void removeLease(Terminal* terminal);
+static void startAddress(Terminal* terminal);
+static void leaseNum(Terminal* terminal);
+static void ignoreUnit(Terminal* terminal);
+static void importMemory(Terminal* terminal);
+static void exportMemory(Terminal* terminal);
 
 void DHCPMemory::updateBroadcast() {
   broadcastAddress[0] = ~memory.mem.subnetMask[0] | memory.mem.ipAddress[0];
@@ -29,15 +32,16 @@ void DHCPMemory::updateBroadcast() {
 }
 
 void DHCPMemory::setup() {
-  PORT->addCmd("config", "...", "Configure Devices \"config ?\" for more", configure);
-  PORT->addCmd("pop", "[n]", "Increase the IP Addresses given by n. n = 0 - 9", increaseCount);
-  PORT->addCmd("lease", "", "Displays the leases held in memory.", showLeases);
-  PORT->addCmd("move", "[n] [n]", "Moves the lease from one IP to another.", moveLease);
-  PORT->addCmd("remove", "[n]", "Removes the lease from the list.", removeLease);
-  PORT->addCmd("start", "[n]", "Changes the start octect address", startAddress);
-  PORT->addCmd("num", "[n]", "Restricts the number of leases available.", leaseNum);
-  PORT->addCmd("export", "", "Export Configuration to File System.", exportMemory);
-  PORT->addCmd("import", "", "Import Configuration to File System.", importMemory);
+  TERM_CMD->addCmd("config", "...", "Configure Devices \"config ?\" for more", configure);
+  TERM_CMD->addCmd("pop", "[n]", "Increase the IP Addresses given by n. n = 0 - 9", increaseCount);
+  TERM_CMD->addCmd("lease", "", "Displays the leases held in memory.", showLeases);
+  TERM_CMD->addCmd("move", "[n] [n]", "Moves the lease from one IP to another.", moveLease);
+  TERM_CMD->addCmd("remove", "[n]", "Removes the lease from the list.", removeLease);
+  TERM_CMD->addCmd("start", "[n]", "Changes the start octect address", startAddress);
+  TERM_CMD->addCmd("num", "[n]", "Restricts the number of leases available.", leaseNum);
+  TERM_CMD->addCmd("export", "", "Export Configuration to File System.", exportMemory);
+  TERM_CMD->addCmd("import", "", "Import Configuration to File System.", importMemory);
+  TERM_CMD->addCmd("ignore", "[n] [0|1]", "Ignore a specific unit and never respond.", ignoreUnit);
   updateBroadcast();
 }
 
@@ -76,44 +80,44 @@ void DHCPMemory::initMemory() {
   updateBroadcast();
 }
 
-void DHCPMemory::printData() {
+void DHCPMemory::printData(Terminal* terminal) {
   EEPROM_TAKE;
-  PORT->print(INFO, "Lease Time: ");
-  PORT->println(INFO, String(memory.mem.leaseTime));
-  PORT->print(INFO, "Increment: ");
-  PORT->println(INFO, String(memory.mem.ipAddressPop));
-  PORT->print(INFO, "MAC: ");
-  PORT->print(INFO, String(memory.mem.macAddress[0], HEX) + ":");
-  PORT->print(INFO, String(memory.mem.macAddress[1], HEX) + ":");
-  PORT->print(INFO, String(memory.mem.macAddress[2], HEX) + ":");
-  PORT->print(INFO, String(memory.mem.macAddress[3], HEX) + ":");
-  PORT->print(INFO, String(memory.mem.macAddress[4], HEX) + ":");
-  PORT->println(INFO, String(memory.mem.macAddress[5], HEX));
-  PORT->print(INFO, "IP Address: ");
-  PORT->print(INFO, String(memory.mem.ipAddress[0]) + ".");
-  PORT->print(INFO, String(memory.mem.ipAddress[1]) + ".");
-  PORT->print(INFO, String(memory.mem.ipAddress[2]) + ".");
-  PORT->println(INFO, String(memory.mem.ipAddress[3]));
-  PORT->print(INFO, "Broadcast Address: ");
-  PORT->print(INFO, String(broadcastAddress[0]) + ".");
-  PORT->print(INFO, String(broadcastAddress[1]) + ".");
-  PORT->print(INFO, String(broadcastAddress[2]) + ".");
-  PORT->println(INFO, String(broadcastAddress[3]));
-  PORT->print(INFO, "Subnet Mask: ");
-  PORT->print(INFO, String(memory.mem.subnetMask[0]) + ".");
-  PORT->print(INFO, String(memory.mem.subnetMask[1]) + ".");
-  PORT->print(INFO, String(memory.mem.subnetMask[2]) + ".");
-  PORT->println(INFO, String(memory.mem.subnetMask[3]));
-  PORT->print(INFO, "Gateway: ");
-  PORT->print(INFO, String(memory.mem.gatewayAddress[0]) + ".");
-  PORT->print(INFO, String(memory.mem.gatewayAddress[1]) + ".");
-  PORT->print(INFO, String(memory.mem.gatewayAddress[2]) + ".");
-  PORT->println(INFO, String(memory.mem.gatewayAddress[3]));
-  PORT->print(INFO, "DNS Address: ");
-  PORT->print(INFO, String(memory.mem.dnsAddress[0]) + ".");
-  PORT->print(INFO, String(memory.mem.dnsAddress[1]) + ".");
-  PORT->print(INFO, String(memory.mem.dnsAddress[2]) + ".");
-  PORT->println(INFO, String(memory.mem.dnsAddress[3]));
+  terminal->print(INFO, "Lease Time: ");
+  terminal->println(INFO, String(memory.mem.leaseTime));
+  terminal->print(INFO, "Increment: ");
+  terminal->println(INFO, String(memory.mem.ipAddressPop));
+  terminal->print(INFO, "MAC: ");
+  terminal->print(INFO, String(memory.mem.macAddress[0], HEX) + ":");
+  terminal->print(INFO, String(memory.mem.macAddress[1], HEX) + ":");
+  terminal->print(INFO, String(memory.mem.macAddress[2], HEX) + ":");
+  terminal->print(INFO, String(memory.mem.macAddress[3], HEX) + ":");
+  terminal->print(INFO, String(memory.mem.macAddress[4], HEX) + ":");
+  terminal->println(INFO, String(memory.mem.macAddress[5], HEX));
+  terminal->print(INFO, "IP Address: ");
+  terminal->print(INFO, String(memory.mem.ipAddress[0]) + ".");
+  terminal->print(INFO, String(memory.mem.ipAddress[1]) + ".");
+  terminal->print(INFO, String(memory.mem.ipAddress[2]) + ".");
+  terminal->println(INFO, String(memory.mem.ipAddress[3]));
+  terminal->print(INFO, "Broadcast Address: ");
+  terminal->print(INFO, String(broadcastAddress[0]) + ".");
+  terminal->print(INFO, String(broadcastAddress[1]) + ".");
+  terminal->print(INFO, String(broadcastAddress[2]) + ".");
+  terminal->println(INFO, String(broadcastAddress[3]));
+  terminal->print(INFO, "Subnet Mask: ");
+  terminal->print(INFO, String(memory.mem.subnetMask[0]) + ".");
+  terminal->print(INFO, String(memory.mem.subnetMask[1]) + ".");
+  terminal->print(INFO, String(memory.mem.subnetMask[2]) + ".");
+  terminal->println(INFO, String(memory.mem.subnetMask[3]));
+  terminal->print(INFO, "Gateway: ");
+  terminal->print(INFO, String(memory.mem.gatewayAddress[0]) + ".");
+  terminal->print(INFO, String(memory.mem.gatewayAddress[1]) + ".");
+  terminal->print(INFO, String(memory.mem.gatewayAddress[2]) + ".");
+  terminal->println(INFO, String(memory.mem.gatewayAddress[3]));
+  terminal->print(INFO, "DNS Address: ");
+  terminal->print(INFO, String(memory.mem.dnsAddress[0]) + ".");
+  terminal->print(INFO, String(memory.mem.dnsAddress[1]) + ".");
+  terminal->print(INFO, String(memory.mem.dnsAddress[2]) + ".");
+  terminal->println(INFO, String(memory.mem.dnsAddress[3]));
   EEPROM_GIVE;
 }
 
@@ -127,7 +131,7 @@ unsigned long DHCPMemory::getLength() {
 
 enum ConfigItem { None = 0, LeaseTime, IpAddress, IpDNS, IpSubnet, IpGW };
 
-static void configure() {
+static void configure(Terminal* terminal) {
   char* value;
   ConfigItem item = None;
   unsigned long parameters[4];
@@ -136,11 +140,11 @@ static void configure() {
   bool requiresStringParameter = false;
   bool commandComplete = true;
 
-  PORT->println();
-  value = PORT->readParameter();
+  terminal->println();
+  value = terminal->readParameter();
 
   if (value == NULL) {
-    PORT->println(WARNING, "Missing any parameters....");
+    terminal->println(WARNING, "Missing any parameters....");
     commandComplete = false;
     item = None;
   } else if (strncmp("lt", value, 2) == 0) {
@@ -161,40 +165,40 @@ static void configure() {
   } else if ((strncmp("?", value, 1) == 0) || (strncmp("help", value, 1) == 0)) {
     item = None;
   } else {
-    PORT->print(WARNING, "Invalid Config: <");
-    PORT->print(WARNING, value);
-    PORT->println(WARNING, ">");
+    terminal->print(WARNING, "Invalid Config: <");
+    terminal->print(WARNING, value);
+    terminal->println(WARNING, ">");
     item = None;
     commandComplete = false;
   }
   for (unsigned long i = 0; i < count; i++) {
-    value = PORT->readParameter();
+    value = terminal->readParameter();
     if (value == NULL) {
       item = None;
       count = 0;
       requiresStringParameter = false;
       commandComplete = false;
-      PORT->println(WARNING, "Missing Parameters in config");
+      terminal->println(WARNING, "Missing Parameters in config");
       break;
     } else {
       parameters[i] = atoi(value);
     }
   }
   if (requiresStringParameter == true) {
-    stringParameter = PORT->readParameter();
+    stringParameter = terminal->readParameter();
     if (stringParameter == NULL) {
       item = None;
       count = 0;
       requiresStringParameter = false;
       commandComplete = false;
-      PORT->println(WARNING, "Missing Parameters in config");
+      terminal->println(WARNING, "Missing Parameters in config");
     }
   }
   switch (item) {
   case LeaseTime:
     Lease::setLeaseTime(parameters[0]);
-    PORT->println(WARNING, "Changing the lease time requires YOU");
-    PORT->println(WARNING, "to reboot everything for the new lease time.");
+    terminal->println(WARNING, "Changing the lease time requires YOU");
+    terminal->println(WARNING, "to reboot everything for the new lease time.");
     EEPROM_FORCE;
     break;
   case IpAddress:
@@ -227,46 +231,46 @@ static void configure() {
     break;
   case None:
   default:
-    PORT->println(HELP, "config lt [n]      ", "- sets the lease time in seconds on DHCP Server");
-    PORT->println(HELP, "config ip [n] [n] [n] [n]     ", "- Sets the IP address n.n.n.n");
-    PORT->println(HELP, "config dns [n] [n] [n] [n]    ", "- Sets the DNS address n.n.n.n");
-    PORT->println(HELP, "config gw [n] [n] [n] [n]     ", "- Sets the Gateway address n.n.n.n");
-    PORT->println(HELP, "config subnet [n] [n] [n] [n] ", "- Sets the Subnet Mask n.n.n.n");
-    PORT->println(HELP, "config help/?          ", "- Print config Help");
-    PORT->println();
-    PORT->println(HELP, "Note: Addresses use a space seperator, so "
-                        "\"192.168.168.4\" is \"192 168 168 4\"");
-    PORT->println(HELP, "      Must Reboot the system for some changes to take effect");
+    terminal->println(HELP, "config lt [n]      ", "- sets the lease time in seconds on DHCP Server");
+    terminal->println(HELP, "config ip [n] [n] [n] [n]     ", "- Sets the IP address n.n.n.n");
+    terminal->println(HELP, "config dns [n] [n] [n] [n]    ", "- Sets the DNS address n.n.n.n");
+    terminal->println(HELP, "config gw [n] [n] [n] [n]     ", "- Sets the Gateway address n.n.n.n");
+    terminal->println(HELP, "config subnet [n] [n] [n] [n] ", "- Sets the Subnet Mask n.n.n.n");
+    terminal->println(HELP, "config help/?          ", "- Print config Help");
+    terminal->println();
+    terminal->println(HELP, "Note: Addresses use a space seperator, so "
+                            "\"192.168.168.4\" is \"192 168 168 4\"");
+    terminal->println(HELP, "      Must Reboot the system for some changes to take effect");
   }
   dhcpMemory.updateBroadcast();
-  PORT->println((commandComplete) ? PASSED : FAILED, "Command Complete");
-  PORT->prompt();
+  terminal->println((commandComplete) ? PASSED : FAILED, "Command Complete");
+  terminal->prompt();
 }
 
-void increaseCount() {
+void increaseCount(Terminal* terminal) {
   int value = 0;
-  PORT->println();
-  value = atoi(PORT->readParameter());
+  terminal->println();
+  value = atoi(terminal->readParameter());
   if (Lease::setIncrementPop(value)) { EEPROM_FORCE; }
-  PORT->prompt();
+  terminal->prompt();
 }
 
-void showLeases() {
-  AsciiTable table;
+void showLeases(Terminal* terminal) {
+  AsciiTable table(terminal);
   byte ipAddress[4] = {0, 0, 0, 0};
   long current = millis();
-  PORT->println();
-  PORT->print(INFO, "Lease Time: ");
-  PORT->println(INFO, String(DHCP_MEMORY.leaseTime));
-  PORT->print(INFO, "Increment: ");
-  PORT->println(INFO, String(Lease::Lease::getIncrementPop()));
-  PORT->println(INFO, "Availabilty: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
+  terminal->println();
+  terminal->print(INFO, "Lease Time: ");
+  terminal->println(INFO, String(DHCP_MEMORY.leaseTime));
+  terminal->print(INFO, "Increment: ");
+  terminal->println(INFO, String(Lease::Lease::getIncrementPop()));
+  terminal->println(INFO, "Availabilty: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
 
   table.addColumn(Normal, "IpAddress", 17);
   table.addColumn(Green, "MAC Address", 19);
   table.addColumn(Red, "Ignore", 8);
-  table.addColumn(Cyan, "Expires (s)", 13);
-  table.addColumn(Yellow, "Status", 20);
+  table.addColumn(Cyan, "Expires(s)", 12);
+  table.addColumn(Yellow, "Status", 19);
 
   table.printHeader();
 
@@ -291,30 +295,30 @@ void showLeases() {
     }
   }
   table.printDone("Lease Table");
-  PORT->prompt();
+  terminal->prompt();
 }
 
-void moveLease() {
+void moveLease(Terminal* terminal) {
   bool success = false;
-  PORT->println();
-  int from = atoi(PORT->readParameter()) - DHCP_MEMORY.startAddressNumber;
-  int to = atoi(PORT->readParameter()) - DHCP_MEMORY.startAddressNumber;
+  terminal->println();
+  int from = atoi(terminal->readParameter()) - DHCP_MEMORY.startAddressNumber;
+  int to = atoi(terminal->readParameter()) - DHCP_MEMORY.startAddressNumber;
   if (Lease::validLeaseNumber(from)) {
     if (Lease::validLeaseNumber(to)) {
       Lease::swapLease(from, to);
       success = true;
     } else
-      PORT->println(ERROR, "To index is invalid");
+      terminal->println(ERROR, "To index is invalid");
   } else
-    PORT->println(ERROR, "From index is invalid");
-  PORT->println((success) ? PASSED : FAILED, "Move Lease Complete");
-  PORT->prompt();
+    terminal->println(ERROR, "From index is invalid");
+  terminal->println((success) ? PASSED : FAILED, "Move Lease Complete");
+  terminal->prompt();
 }
 
-void removeLease() {
+void removeLease(Terminal* terminal) {
   bool success = false;
-  PORT->println();
-  String parameter = PORT->readParameter();
+  terminal->println();
+  String parameter = terminal->readParameter();
   if (parameter == "all") {
     success = true;
     for (int i = 0; i < LEASESNUM; i++) { Lease::deleteLease(i); }
@@ -325,51 +329,51 @@ void removeLease() {
         Lease::deleteLease(from);
         success = true;
       } else
-        PORT->println(ERROR, "Lease already empty!");
+        terminal->println(ERROR, "Lease already empty!");
     } else
-      PORT->println(ERROR, "Index is invalid");
+      terminal->println(ERROR, "Index is invalid");
   }
-  PORT->println((success) ? PASSED : FAILED, "Remove Lease Complete");
-  PORT->prompt();
+  terminal->println((success) ? PASSED : FAILED, "Remove Lease Complete");
+  terminal->prompt();
 }
 
-void startAddress() {
+void startAddress(Terminal* terminal) {
   bool success = false;
-  int address = atoi(PORT->readParameter());
+  int address = atoi(terminal->readParameter());
   if ((address > 1) && (address < 255)) {
     if ((DHCP_MEMORY.leaseNum + address) < 255) {
       DHCP_MEMORY.startAddressNumber = address;
       success = true;
     }
-    PORT->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
+    terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
   }
-  PORT->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
-  PORT->println();
-  PORT->println((success) ? PASSED : FAILED, "Change Start Adderess Complete");
-  PORT->prompt();
+  terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
+  terminal->println();
+  terminal->println((success) ? PASSED : FAILED, "Change Start Adderess Complete");
+  terminal->prompt();
 }
 
-void leaseNum() {
+void leaseNum(Terminal* terminal) {
   bool success = false;
-  int number = atoi(PORT->readParameter());
+  int number = atoi(terminal->readParameter());
   if ((number >= 0) && (number < LEASESNUM)) {
     if ((number + DHCP_MEMORY.startAddressNumber) < 255) {
       DHCP_MEMORY.leaseNum = number;
       success = true;
     }
-    PORT->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
+    terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
   }
-  PORT->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
-  PORT->println();
-  PORT->println((success) ? PASSED : FAILED, "Change Number of Leases Available Complete");
-  PORT->prompt();
+  terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
+  terminal->println();
+  terminal->println((success) ? PASSED : FAILED, "Change Number of Leases Available Complete");
+  terminal->prompt();
 }
 
-void exportMemory() {
+void exportMemory(Terminal* terminal) {
   DHCP_DATA->exportMem();
-  PORT->println();
-  PORT->println(PASSED, "Export Complete.");
-  PORT->prompt();
+  terminal->println();
+  terminal->println(PASSED, "Export Complete.");
+  terminal->prompt();
 }
 
 void DHCPMemory::exportMem() {
@@ -387,11 +391,11 @@ void DHCPMemory::exportMem() {
   exportMem.close();
 }
 
-void importMemory() {
+void importMemory(Terminal* terminal) {
   DHCP_DATA->importMem();
-  PORT->println();
-  PORT->println(PASSED, "Import Complete.");
-  PORT->prompt();
+  terminal->println();
+  terminal->println(PASSED, "Import Complete.");
+  terminal->prompt();
 }
 
 void DHCPMemory::importMem() {
@@ -422,9 +426,24 @@ void DHCPMemory::importMem() {
       importMem.importData(DHCP_MEMORY.leasesMac[macIndex].macAddress, 6);
     } else {
       importMem.importData(&value);
-      PORT->println(ERROR, "Unknown Parameter in File: " + parameter + " - " + value);
+      CONSOLE->println(ERROR, "Unknown Parameter in File: " + parameter + " - " + value);
     }
   }
 
   EEPROM_FORCE;
+}
+
+void ignoreUnit(Terminal* terminal) {
+  bool success = false;
+  int number = atoi(terminal->readParameter()) - DHCP_MEMORY.startAddressNumber;
+  int ignore = atoi(terminal->readParameter());
+  terminal->println();
+  if ((number >= 0) && (number < DHCP_MEMORY.leaseNum)) {
+    Lease::setIgnore(number, (ignore == 1));
+    success = true;
+  } else {
+    terminal->println(ERROR, "Invalid Unit Number");
+  }
+  terminal->println((success) ? PASSED : FAILED, "Ignore Unit Complete");
+  terminal->prompt();
 }

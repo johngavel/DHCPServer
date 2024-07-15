@@ -42,7 +42,7 @@ public:
   MemoryUnion memory;
   void setup();
   void initMemory();
-  void printData();
+  void printData(Terminal* terminal);
   unsigned char* getData();
   unsigned long getLength();
   void updateBroadcast();

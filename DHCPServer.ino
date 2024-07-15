@@ -12,6 +12,7 @@
 #include <serialport.h>
 #include <servermodule.h>
 #include <startup.h>
+#include <telnet.h>
 #include <watchdog.h>
 
 const char* ProgramInfo::AppName = "DHCPServer";
@@ -41,8 +42,11 @@ void setup() {
   ETHERNET->configure(DHCP_MEMORY.macAddress, false, DHCP_MEMORY.ipAddress, DHCP_MEMORY.dnsAddress, DHCP_MEMORY.subnetMask, DHCP_MEMORY.gatewayAddress);
   ETHERNET->setup();
   dhcpTask.setup();
+  SERVER->configure(ETHERNET->getServer(HTTP_PORT));
   SERVER->setup();
   setupServerModule();
+  TELNET->configure(ETHERNET->getServer(TELNET_PORT));
+  TELNET->setup();
 
   GPIO->setup();
   LICENSE->setup();
@@ -60,6 +64,7 @@ void loop() {
   ETHERNET->loop();
   dhcpTask.loop();
   SERVER->loop();
+  TELNET->loop();
   EEPROM->loop();
   WATCHDOG->loop();
 }

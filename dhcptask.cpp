@@ -11,7 +11,7 @@ void DHCPTask::setupTask() {
   Udp.begin(DHCP_SERVER_PORT);
   setRefreshMilli(10);
   LICENSE_ADD("DHCPLite", "Ver. 0.14", "DHCP_LICENSE.txt");
-  PORT->println(PASSED, "DHCP Server Task Complete");
+  CONSOLE->println(PASSED, "DHCP Server Task Complete");
 }
 
 void DHCPTask::executeTask() {
