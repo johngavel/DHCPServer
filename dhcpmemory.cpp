@@ -3,13 +3,12 @@
 #include "DHCPLite.h"
 #include "leases.h"
 
+#include <Terminal.h>
 #include <asciitable.h>
 #include <export.h>
 #include <serialport.h>
 #include <stringutils.h>
 #include <sys/_types.h>
-#include <termcmd.h>
-#include <terminal.h>
 
 DHCPMemory dhcpMemory;
 
@@ -140,7 +139,6 @@ static void configure(Terminal* terminal) {
   bool requiresStringParameter = false;
   bool commandComplete = true;
 
-  terminal->println();
   value = terminal->readParameter();
 
   if (value == NULL) {
@@ -249,7 +247,6 @@ static void configure(Terminal* terminal) {
 
 void increaseCount(Terminal* terminal) {
   int value = 0;
-  terminal->println();
   value = atoi(terminal->readParameter());
   if (Lease::setIncrementPop(value)) { EEPROM_FORCE; }
   terminal->prompt();
@@ -259,7 +256,6 @@ void showLeases(Terminal* terminal) {
   AsciiTable table(terminal);
   byte ipAddress[4] = {0, 0, 0, 0};
   long current = millis();
-  terminal->println();
   terminal->print(INFO, "Lease Time: ");
   terminal->println(INFO, String(DHCP_MEMORY.leaseTime));
   terminal->print(INFO, "Increment: ");
@@ -300,7 +296,6 @@ void showLeases(Terminal* terminal) {
 
 void moveLease(Terminal* terminal) {
   bool success = false;
-  terminal->println();
   int from = atoi(terminal->readParameter()) - DHCP_MEMORY.startAddressNumber;
   int to = atoi(terminal->readParameter()) - DHCP_MEMORY.startAddressNumber;
   if (Lease::validLeaseNumber(from)) {
@@ -317,7 +312,6 @@ void moveLease(Terminal* terminal) {
 
 void removeLease(Terminal* terminal) {
   bool success = false;
-  terminal->println();
   String parameter = terminal->readParameter();
   if (parameter == "all") {
     success = true;
@@ -348,7 +342,6 @@ void startAddress(Terminal* terminal) {
     terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
   }
   terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
-  terminal->println();
   terminal->println((success) ? PASSED : FAILED, "Change Start Adderess Complete");
   terminal->prompt();
 }
@@ -364,14 +357,12 @@ void leaseNum(Terminal* terminal) {
     terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
   }
   terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
-  terminal->println();
   terminal->println((success) ? PASSED : FAILED, "Change Number of Leases Available Complete");
   terminal->prompt();
 }
 
 void exportMemory(Terminal* terminal) {
   DHCP_DATA->exportMem();
-  terminal->println();
   terminal->println(PASSED, "Export Complete.");
   terminal->prompt();
 }
@@ -393,7 +384,6 @@ void DHCPMemory::exportMem() {
 
 void importMemory(Terminal* terminal) {
   DHCP_DATA->importMem();
-  terminal->println();
   terminal->println(PASSED, "Import Complete.");
   terminal->prompt();
 }
@@ -437,7 +427,6 @@ void ignoreUnit(Terminal* terminal) {
   bool success = false;
   int number = atoi(terminal->readParameter()) - DHCP_MEMORY.startAddressNumber;
   int ignore = atoi(terminal->readParameter());
-  terminal->println();
   if ((number >= 0) && (number < DHCP_MEMORY.leaseNum)) {
     Lease::setIgnore(number, (ignore == 1));
     success = true;

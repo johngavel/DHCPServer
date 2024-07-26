@@ -17,11 +17,9 @@
 
 const char* ProgramInfo::AppName = "DHCPServer";
 const char* ProgramInfo::ShortName = "dhcp";
-const char* ProgramInfo::compileDate = __DATE__;
-const char* ProgramInfo::compileTime = __TIME__;
 const unsigned char ProgramInfo::ProgramNumber = 0x08;
 const unsigned char ProgramInfo::MajorVersion = 0x01;
-const unsigned char ProgramInfo::MinorVersion = 0x01;
+const unsigned char ProgramInfo::MinorVersion = 0x03;
 const char* ProgramInfo::AuthorName = "John J. Gavel";
 const HardwareWire ProgramInfo::hardwarewire = HardwareWire(&Wire, 4, 5);
 const HardwareSerialPort ProgramInfo::hardwareserial = HardwareSerialPort(&Serial1, 0, 1);
