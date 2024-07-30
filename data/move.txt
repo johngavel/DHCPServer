@@ -1,8 +1,0 @@
-move 151 101
-move 152 102
-move 153 103
-move 154 104
-move 155 105
-move 156 106
-move 157 107
-move 158 108
