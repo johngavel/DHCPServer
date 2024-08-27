@@ -263,7 +263,7 @@ public:
         ->println();
     html->openTrTag()
         ->tdTag("")
-        ->tdTag("Address Increment")
+        ->tdTag("Address Increment (3rd octect, n.n.n+i.n)")
         ->openTdTag()
         ->openTag("input",
                   "type=\"text\" maxlength=\"1\" size=\"1\" pattern=\"[^\\s]+\" value=\"" + String(Lease::Lease::getIncrementPop()) + "\" name=\"increment\"\"")
