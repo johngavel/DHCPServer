@@ -84,8 +84,6 @@ public:
     sendPageBegin(html, true, refresh);
     html->print("Lease Time: ");
     html->println(timeString(Lease::getLeaseTime()));
-    html->brTag()->print("Increment: ");
-    html->println(String(Lease::Lease::getIncrementPop()))->brTag();
     buildLeaseTable(html);
     html->openTag("table", "class=\"center\"")->openTrTag()->println();
     html->openTdTag()->openTag("a", "href=\"/dhcpconfig\"")->print("DHCP Server Config")->closeTag()->closeTag()->closeTag()->println();
@@ -262,16 +260,6 @@ public:
         ->closeTag()
         ->println();
     html->openTrTag()
-        ->tdTag("")
-        ->tdTag("Address Increment (3rd octect, n.n.n+i.n)")
-        ->openTdTag()
-        ->openTag("input",
-                  "type=\"text\" maxlength=\"1\" size=\"1\" pattern=\"[^\\s]+\" value=\"" + String(Lease::Lease::getIncrementPop()) + "\" name=\"increment\"\"")
-        ->closeTag()
-        ->closeTag()
-        ->closeTag()
-        ->println();
-    html->openTrTag()
         ->openTdTag()
         ->closeTag("input", "type=\"checkbox\" id=\"move\" name=\"move\"")
         ->openTag("label", "for=\"move\"")
@@ -368,8 +356,6 @@ public:
         ;
       } else if (LIST->getParameter(i).equals("leaseTime")) {
         Lease::setLeaseTime(LIST->getValue(i).toInt());
-      } else if (LIST->getParameter(i).equals("increment")) {
-        Lease::setIncrementPop(LIST->getValue(i).toInt());
       } else if (LIST->getParameter(i).equals("from")) {
         from = LIST->getValue(i).toInt();
       } else if (LIST->getParameter(i).equals("to")) {

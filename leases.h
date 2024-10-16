@@ -23,9 +23,6 @@ public:
   static void swapLease(byte lease1, byte lease2);
   static void deleteLease(byte lease);
 
-  static byte getIncrementPop();
-  static bool setIncrementPop(byte pop);
-
   static byte* getLeaseMACAddress(byte lease);
   static bool getLeaseIPAddress(byte lease, byte* ipAddress);
 

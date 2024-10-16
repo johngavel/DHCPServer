@@ -96,20 +96,6 @@ void Lease::deleteLease(byte lease) {
   }
 }
 
-byte Lease::getIncrementPop() {
-  return DHCP_MEMORY.ipAddressPop;
-}
-
-bool Lease::setIncrementPop(byte pop) {
-  bool value = false;
-  if ((pop <= 9) && (DHCP_MEMORY.ipAddressPop != pop)) {
-    value = true;
-    DHCP_MEMORY.ipAddressPop = pop;
-    for (int i = 0; i < DHCP_MEMORY.leaseNum; i++) { dhcpMemory.leaseStatus[i].status = DHCP_LEASE_AVAIL; }
-  }
-  return value;
-}
-
 byte* Lease::getLeaseMACAddress(byte lease) {
   return DHCP_MEMORY.leasesMac[lease].macAddress;
 }
@@ -120,7 +106,6 @@ bool Lease::getLeaseIPAddress(byte lease, byte* ipAddress) {
   ipAddress[1] = ipAddress[1] & DHCP_MEMORY.subnetMask[1];
   ipAddress[2] = ipAddress[2] & DHCP_MEMORY.subnetMask[2];
   ipAddress[3] = ipAddress[3] & DHCP_MEMORY.subnetMask[3];
-  ipAddress[2] += getIncrementPop() & 0xFF;
   ipAddress[3] += (lease + DHCP_MEMORY.startAddressNumber) & 0xFF; // lease starts with 1
   return true;
 }

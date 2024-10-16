@@ -13,7 +13,6 @@
 DHCPMemory dhcpMemory;
 
 static void configure(Terminal* terminal);
-static void increaseCount(Terminal* terminal);
 static void showLeases(Terminal* terminal);
 static void moveLease(Terminal* terminal);
 static void removeLease(Terminal* terminal);
@@ -32,7 +31,6 @@ void DHCPMemory::updateBroadcast() {
 
 void DHCPMemory::setup() {
   TERM_CMD->addCmd("config", "...", "Configure Devices \"config ?\" for more", configure);
-  TERM_CMD->addCmd("pop", "[n]", "Increase the IP Addresses given by n. n = 0 - 9", increaseCount);
   TERM_CMD->addCmd("lease", "", "Displays the leases held in memory.", showLeases);
   TERM_CMD->addCmd("move", "[n] [n]", "Moves the lease from one IP to another.", moveLease);
   TERM_CMD->addCmd("remove", "[n]", "Removes the lease from the list.", removeLease);
@@ -83,8 +81,6 @@ void DHCPMemory::printData(Terminal* terminal) {
   EEPROM_TAKE;
   terminal->print(INFO, "Lease Time: ");
   terminal->println(INFO, String(memory.mem.leaseTime));
-  terminal->print(INFO, "Increment: ");
-  terminal->println(INFO, String(memory.mem.ipAddressPop));
   terminal->print(INFO, "MAC: ");
   terminal->print(INFO, String(memory.mem.macAddress[0], HEX) + ":");
   terminal->print(INFO, String(memory.mem.macAddress[1], HEX) + ":");
@@ -245,21 +241,12 @@ static void configure(Terminal* terminal) {
   terminal->prompt();
 }
 
-void increaseCount(Terminal* terminal) {
-  int value = 0;
-  value = atoi(terminal->readParameter());
-  if (Lease::setIncrementPop(value)) { EEPROM_FORCE; }
-  terminal->prompt();
-}
-
 void showLeases(Terminal* terminal) {
   AsciiTable table(terminal);
   byte ipAddress[4] = {0, 0, 0, 0};
   long current = millis();
   terminal->print(INFO, "Lease Time: ");
   terminal->println(INFO, String(DHCP_MEMORY.leaseTime));
-  terminal->print(INFO, "Increment: ");
-  terminal->println(INFO, String(Lease::Lease::getIncrementPop()));
   terminal->println(INFO, "Availabilty: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
 
   table.addColumn(Normal, "IpAddress", 17);
@@ -374,7 +361,6 @@ void DHCPMemory::exportMem() {
   exportMem.exportData("startAddressNumber", DHCP_MEMORY.startAddressNumber);
   exportMem.exportData("leaseNum", DHCP_MEMORY.leaseNum);
   exportMem.exportData("leaseTime", DHCP_MEMORY.leaseTime);
-  exportMem.exportData("ipAddressPop", DHCP_MEMORY.ipAddressPop);
   exportMem.exportData("dnsAddress", DHCP_MEMORY.dnsAddress, 4);
   exportMem.exportData("subnetMask", DHCP_MEMORY.subnetMask, 4);
   exportMem.exportData("gatewayAddress", DHCP_MEMORY.gatewayAddress, 4);
@@ -403,8 +389,6 @@ void DHCPMemory::importMem() {
       importMem.importData(&DHCP_MEMORY.leaseNum);
     else if (parameter == "leaseTime")
       importMem.importData(&DHCP_MEMORY.leaseTime);
-    else if (parameter == "ipAddressPop")
-      importMem.importData(&DHCP_MEMORY.ipAddressPop);
     else if (parameter == "dnsAddress")
       importMem.importData(DHCP_MEMORY.dnsAddress, 4);
     else if (parameter == "subnetMask")

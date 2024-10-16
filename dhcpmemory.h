@@ -29,7 +29,7 @@ public:
     byte subnetMask[4];
     byte gatewayAddress[4];
     unsigned long leaseTime;
-    unsigned long ipAddressPop;
+    byte spare2[4];
     LeaseMac leasesMac[LEASESNUM];
   };
 
