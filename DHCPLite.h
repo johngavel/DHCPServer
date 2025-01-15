@@ -5,7 +5,7 @@
 #ifndef DHCP_LITE_H
 #define DHCP_LITE_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 #define DHCP_MESSAGE_SIZE 576 /* a DHCP client must be prepared to receive a message of up to 576 octets */
 
@@ -27,8 +27,8 @@
 #define DHCP_RELEASE 7
 #define DHCP_INFORM 8
 
-//#define DHCP_LEASETIME ((long)60*60*24) // Lease Time: 1 day == { 00, 01, 51, 80 }
-//#define DHCP_LEASETIME ((long) 150) // Lease Time:
+// #define DHCP_LEASETIME ((long)60*60*24) // Lease Time: 1 day == { 00, 01, 51, 80 }
+// #define DHCP_LEASETIME ((long) 150) // Lease Time:
 
 /**
  * @brief	DHCP option and value (cf. RFC1533)

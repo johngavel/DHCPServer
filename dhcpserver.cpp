@@ -78,7 +78,7 @@ public:
     setPageName("index");
     refresh = 10;
   };
-  void conductAction(){};
+  void conductAction() {};
   HTMLBuilder* getHtml(HTMLBuilder* html) {
     conductAction();
     sendPageBegin(html, true, refresh);
