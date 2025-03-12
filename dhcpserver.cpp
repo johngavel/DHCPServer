@@ -99,7 +99,8 @@ public:
   ServerPage() { setPageName("server"); };
   HTMLBuilder* getHtml(HTMLBuilder* html) {
     sendPageBegin(html);
-    String versionString = "Ver. " + String(ProgramInfo::MajorVersion) + String(".") + String(ProgramInfo::MinorVersion);
+    String versionString =
+        "Ver. " + String(ProgramInfo::MajorVersion) + String(".") + String(ProgramInfo::MinorVersion) + String(".") + String(ProgramInfo::BuildVersion);
 
     html->openTag("h2")->print(ProgramInfo::AppName)->closeTag()->println();
     html->openTag("table", "class=\"center\"")->openTrTag();
