@@ -9,6 +9,7 @@
 #include <gpio.h>
 #include <license.h>
 #include <onboardled.h>
+#include <scan.h>
 #include <serialport.h>
 #include <servermodule.h>
 #include <startup.h>
@@ -46,6 +47,7 @@ void setup() {
   setupServerModule();
   TELNET->configure(ETHERNET->getServer(TELNET_PORT));
   TELNET->setup();
+  SCAN->setup();
 
   GPIO->setup();
   LICENSE->setup();
@@ -65,12 +67,12 @@ void loop() {
   SERVER->loop();
   TELNET->loop();
   EEPROM->loop();
-  WATCHDOG->loop();
+  WATCHDOG->tickle();
 }
 
 void loop1() {
   delay(100);
   BLINK->loop();
   GPIO->loop();
-  WATCHDOG->loop();
+  WATCHDOG->tickle();
 }
