@@ -10,7 +10,7 @@ void DHCPTask::setupTask() {
   broadcast = new IPAddress(dhcpMemory.broadcastAddress[0], dhcpMemory.broadcastAddress[1], dhcpMemory.broadcastAddress[2], dhcpMemory.broadcastAddress[3]);
   Udp.begin(DHCP_SERVER_PORT);
   setRefreshMilli(10);
-  LICENSE_ADD("DHCPLite", "Ver. 0.14", "DHCP_LICENSE.txt");
+  LICENSE_ADD("DHCPLite", "0.14", "DHCP_LICENSE.txt");
   CONSOLE->println(PASSED, "DHCP Server Task Complete");
 }
 
