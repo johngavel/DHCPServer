@@ -8420,9 +8420,9 @@ LOAD /home/user/.arduino15/packages/rp2040/tools/pqt-gcc/4.1.0-1aec55e/bin/../li
 .rodata         0x100320b8     0x5790
  *(EXCLUDE_FILE(*libm.a: *libc.a:*lib_a-mem*.o *libgcc.a:) .rodata* .big_const*)
  .rodata.str1.1
-                0x100320b8     0x3eaa /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
+                0x100320b8     0x3ea9 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
                                  0x1e (size before relaxing)
- *fill*         0x10035f62        0x2 
+ *fill*         0x10035f61        0x3 
  .rodata._ZN11ProgramInfo12BuildVersionE
                 0x10035f64        0x4 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
                 0x10035f64                _ZN11ProgramInfo12BuildVersionE
@@ -8607,7 +8607,7 @@ LOAD /home/user/.arduino15/packages/rp2040/tools/pqt-gcc/4.1.0-1aec55e/bin/../li
  .rodata._ZL9libraries
                 0x10036180       0x84 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
  .rodata._Z11setup0Startv.str1.1
-                0x10036204       0x7e /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/startup.cpp.o
+                0x10036204       0x7d /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/startup.cpp.o
  .rodata._Z14setup0Completev.str1.1
                 0x10036204       0x14 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/startup.cpp.o
  .rodata._ZN11TaskManager5setupEv.str1.1
