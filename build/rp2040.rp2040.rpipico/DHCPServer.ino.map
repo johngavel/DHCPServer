@@ -8420,220 +8420,220 @@ LOAD /home/user/.arduino15/packages/rp2040/tools/pqt-gcc/4.1.0-1aec55e/bin/../li
 .rodata         0x10032518     0x5748
  *(EXCLUDE_FILE(*libm.a: *libc.a:*lib_a-mem*.o *libgcc.a:) .rodata* .big_const*)
  .rodata.str1.1
-                0x10032518     0x3e68 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
+                0x10032518     0x3e69 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
                                  0x1e (size before relaxing)
+ *fill*         0x10036381        0x3 
  .rodata._ZN11ProgramInfo12BuildVersionE
-                0x10036380        0x4 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
-                0x10036380                _ZN11ProgramInfo12BuildVersionE
+                0x10036384        0x4 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
+                0x10036384                _ZN11ProgramInfo12BuildVersionE
  .rodata._ZN11ProgramInfo12MinorVersionE
-                0x10036384        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
-                0x10036384                _ZN11ProgramInfo12MinorVersionE
+                0x10036388        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
+                0x10036388                _ZN11ProgramInfo12MinorVersionE
  .rodata._ZN11ProgramInfo12MajorVersionE
-                0x10036385        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
-                0x10036385                _ZN11ProgramInfo12MajorVersionE
+                0x10036389        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
+                0x10036389                _ZN11ProgramInfo12MajorVersionE
  .rodata._ZN11ProgramInfo13ProgramNumberE
-                0x10036386        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
-                0x10036386                _ZN11ProgramInfo13ProgramNumberE
+                0x1003638a        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPServer.ino.cpp.o
+                0x1003638a                _ZN11ProgramInfo13ProgramNumberE
  .rodata._ZL10ignoreUnitPN15TerminalLibrary8TerminalE.str1.1
-                0x10036387       0x29 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x29 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZL12importMemoryPN15TerminalLibrary8TerminalE.str1.1
-                0x10036387       0x11 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x11 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZL12exportMemoryPN15TerminalLibrary8TerminalE.str1.1
-                0x10036387       0x11 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x11 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZL8leaseNumPN15TerminalLibrary8TerminalE.str1.1
-                0x10036387       0x73 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x73 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZL12startAddressPN15TerminalLibrary8TerminalE.str1.1
-                0x10036387       0x1f /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x1f /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZL11removeLeasePN15TerminalLibrary8TerminalE.str1.1
-                0x10036387       0x40 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x40 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZL9moveLeasePN15TerminalLibrary8TerminalE.str1.1
-                0x10036387       0x3e /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x3e /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZL10showLeasesPN15TerminalLibrary8TerminalE.str1.1
-                0x10036387       0x79 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x79 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZN10DHCPMemory5setupEv.str1.1
-                0x10036387      0x1a4 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b      0x1a4 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZL9configurePN15TerminalLibrary8TerminalE.str1.1
-                0x10036387      0x2b8 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b      0x2b8 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZN10DHCPMemory9exportMemEv.str1.1
-                0x10036387       0x65 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x65 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZN10DHCPMemory9importMemEv.str1.1
-                0x10036387       0x1c /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638b       0x1c /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
  .rodata._ZN10DHCPMemory9printDataEPN15TerminalLibrary8TerminalE.str1.1
-                0x10036387       0x51 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
- *fill*         0x10036387        0x1 
+                0x1003638b       0x51 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+ *fill*         0x1003638b        0x1 
  .rodata._ZTV10DHCPMemory
-                0x10036388       0x24 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
-                0x10036388                _ZTV10DHCPMemory
+                0x1003638c       0x24 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpmemory.cpp.o
+                0x1003638c                _ZTV10DHCPMemory
  .rodata._ZN12ConfigIPPage7getHtmlEP11HTMLBuilder.str1.1
-                0x100363ac      0x22e /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0      0x22e /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
  .rodata._ZN10ServerPage7getHtmlEP11HTMLBuilder.str1.1
-                0x100363ac      0x194 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0      0x194 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
  .rodata._ZN12ConfigIPPage20processParameterListEv.str1.1
-                0x100363ac       0x79 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0       0x79 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
  .rodata._ZN14ConfigDHCPPage20processParameterListEv.str1.1
-                0x100363ac       0xa1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0       0xa1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
  .rodata._Z15buildLeaseTableP11HTMLBuilder.str1.1
-                0x100363ac       0xae /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0       0xae /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
  .rodata._ZN8RootPage7getHtmlEP11HTMLBuilder.str1.1
-                0x100363ac       0x51 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0       0x51 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
  .rodata._Z21buildConfigLeaseTableP11HTMLBuilder.str1.1
-                0x100363ac       0x87 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0       0x87 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
  .rodata._ZN14ConfigDHCPPage7getHtmlEP11HTMLBuilder.str1.1
-                0x100363ac      0x1b8 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0      0x1b8 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
  .rodata._GLOBAL__sub_I__Z15buildLeaseTableP11HTMLBuilder.str1.1
-                0x100363ac       0x83 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0       0x83 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
  .rodata._ZTV9BasicPage
-                0x100363ac        0xc /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
-                0x100363ac                _ZTV9BasicPage
+                0x100363b0        0xc /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363b0                _ZTV9BasicPage
  .rodata._ZTV8RootPage
-                0x100363b8        0xc /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
-                0x100363b8                _ZTV8RootPage
+                0x100363bc        0xc /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363bc                _ZTV8RootPage
  .rodata._ZTV10ServerPage
-                0x100363c4        0xc /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
-                0x100363c4                _ZTV10ServerPage
+                0x100363c8        0xc /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363c8                _ZTV10ServerPage
  .rodata._ZTV14ConfigDHCPPage
-                0x100363d0       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
-                0x100363d0                _ZTV14ConfigDHCPPage
+                0x100363d4       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363d4                _ZTV14ConfigDHCPPage
  .rodata._ZTV12ConfigIPPage
-                0x100363e0       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
-                0x100363e0                _ZTV12ConfigIPPage
+                0x100363e4       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcpserver.cpp.o
+                0x100363e4                _ZTV12ConfigIPPage
  .rodata._ZN8DHCPTask9setupTaskEv.str1.1
-                0x100363f0       0x39 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcptask.cpp.o
+                0x100363f4       0x39 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcptask.cpp.o
  .rodata._GLOBAL__sub_I_dhcpTask.str1.1
-                0x100363f0       0x16 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcptask.cpp.o
+                0x100363f4       0x16 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcptask.cpp.o
  .rodata._ZTV4Task
-                0x100363f0       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcptask.cpp.o
-                0x100363f0                _ZTV4Task
+                0x100363f4       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcptask.cpp.o
+                0x100363f4                _ZTV4Task
  .rodata._ZTV8DHCPTask
-                0x10036400       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcptask.cpp.o
-                0x10036400                _ZTV8DHCPTask
+                0x10036404       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/dhcptask.cpp.o
+                0x10036404                _ZTV8DHCPTask
  .rodata._ZN5Lease17leaseStatusStringEl.str1.1
-                0x10036410       0x3a /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/leases.cpp.o
+                0x10036414       0x3a /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/leases.cpp.o
  .rodata._ZL8blankMac
-                0x10036410        0x6 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/leases.cpp.o
+                0x10036414        0x6 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/leases.cpp.o
  .rodata._ZN12EEpromMemory3getEv.str1.1
-                0x10036416        0x7 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
+                0x1003641a        0x7 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
  .rodata._ZN12EEpromMemory3memEPN15TerminalLibrary8TerminalE.str1.1
-                0x10036416       0x63 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
+                0x1003641a       0x63 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
  .rodata._ZN12EEpromMemory4wipeEPN15TerminalLibrary8TerminalE.str1.1
-                0x10036416       0x23 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
+                0x1003641a       0x23 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
  .rodata._ZN12EEpromMemory15writeEEPROMbyteEmh.str1.1
-                0x10036416       0x1d /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
+                0x1003641a       0x1d /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
  .rodata._ZN12EEpromMemory9setupTaskEv.str1.1
-                0x10036416      0x128 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
- *fill*         0x10036416        0x2 
+                0x1003641a      0x128 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
+ *fill*         0x1003641a        0x2 
  .rodata._ZTV12EEpromMemory
-                0x10036418       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
-                0x10036418                _ZTV12EEpromMemory
+                0x1003641c       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
+                0x1003641c                _ZTV12EEpromMemory
  .rodata.str1.1
-                0x10036428      0x205 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
+                0x1003642c      0x206 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
  .rodata._ZL9libraries
-                0x10036428       0x84 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
+                0x1003642c       0x84 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEEPROM/eeprom.cpp.o
  .rodata.str1.1
-                0x100364ac       0x15 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/architecture.cpp.o
+                0x100364b0       0x15 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/architecture.cpp.o
  .rodata._ZN11ProgramInfo7hw_typeE
-                0x100364ac        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/architecture.cpp.o
-                0x100364ac                _ZN11ProgramInfo7hw_typeE
+                0x100364b0        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/architecture.cpp.o
+                0x100364b0                _ZN11ProgramInfo7hw_typeE
  .rodata._Z10rebootPicoPN15TerminalLibrary8TerminalE.str1.1
-                0x100364ad        0xe /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+                0x100364b1        0xe /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
  .rodata._Z10uploadPicoPN15TerminalLibrary8TerminalE.str1.1
-                0x100364ad       0x1a /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+                0x100364b1       0x1a /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
  .rodata._Z6bannerPN15TerminalLibrary8TerminalE.str1.1
-                0x100364ad       0x8b /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+                0x100364b1       0x8b /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
  .rodata._ZN15TerminalLibrary8TerminalC2EPN7arduino6StreamE.str1.1
-                0x100364ad        0xc /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+                0x100364b1        0xc /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
  .rodata._ZN10SerialPort11serialSetupEv.str1.1
-                0x100364ad        0x4 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+                0x100364b1        0x4 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
  .rodata._ZN10SerialPort3getEv.str1.1
-                0x100364ad        0xb /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+                0x100364b1        0xb /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
  .rodata._ZN10SerialPort9setupTaskEv.str1.1
-                0x100364ad       0x82 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
- *fill*         0x100364ad        0x3 
+                0x100364b1       0x82 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+ *fill*         0x100364b1        0x3 
  .rodata._ZTV10SerialPort
-                0x100364b0       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
-                0x100364b0                _ZTV10SerialPort
+                0x100364b4       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+                0x100364b4                _ZTV10SerialPort
  .rodata.str1.1
-                0x100364c0      0x205 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+                0x100364c4      0x206 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
  .rodata._ZL9libraries
-                0x100364c0       0x84 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
+                0x100364c4       0x84 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/serialport.cpp.o
  .rodata._Z11setup0Startv.str1.1
-                0x10036544       0x7d /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/startup.cpp.o
+                0x10036548       0x7d /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/startup.cpp.o
  .rodata._Z14setup0Completev.str1.1
-                0x10036544       0x14 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/startup.cpp.o
+                0x10036548       0x14 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/startup.cpp.o
  .rodata._ZN11TaskManager5setupEv.str1.1
-                0x10036544       0x52 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/taskmanager.cpp.o
+                0x10036548       0x52 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/taskmanager.cpp.o
  .rodata._ZN11TaskManager6systemEPN15TerminalLibrary8TerminalE.str1.1
-                0x10036544       0x73 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/taskmanager.cpp.o
+                0x10036548       0x73 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelArch/taskmanager.cpp.o
  .rodata._ZN15TerminalLibrary4helpEPNS_8TerminalE.str1.1
-                0x10036544       0x2f /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/stdtermcmd.cpp.o
+                0x10036548       0x2f /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/stdtermcmd.cpp.o
  .rodata._ZN15TerminalLibrary7historyEPNS_8TerminalE.str1.1
-                0x10036544       0x13 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/stdtermcmd.cpp.o
+                0x10036548       0x13 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/stdtermcmd.cpp.o
  .rodata._ZN15TerminalLibrary11echoCommandEPNS_8TerminalE.str1.1
-                0x10036544        0xb /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/stdtermcmd.cpp.o
+                0x10036548        0xb /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/stdtermcmd.cpp.o
  .rodata._ZN15TerminalLibrary27addStandardTerminalCommandsEv.str1.1
-                0x10036544       0xa3 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/stdtermcmd.cpp.o
+                0x10036548       0xa3 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/stdtermcmd.cpp.o
  .rodata._ZN15TerminalLibrary15TerminalCommandC2Ev.str1.1
-                0x10036544        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/termcmd.cpp.o
+                0x10036548        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/termcmd.cpp.o
  .rodata._ZN15TerminalLibraryL13hexByteStringEh.str1.1
-                0x10036544        0x3 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
+                0x10036548        0x3 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
  .rodata._ZN15TerminalLibraryL11printBufferEPhm.str1.1
-                0x10036544        0x5 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
+                0x10036548        0x5 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal10printColorENS_5COLORE.str1.1
-                0x10036544        0x6 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
+                0x10036548        0x6 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal5printENS_11PRINT_TYPESEN7arduino6StringE.str1.1
-                0x10036544       0x29 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
+                0x10036548       0x29 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal6bannerEv.str1.1
-                0x10036544       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
+                0x10036548       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal4loopEv.str1.1
-                0x10036544       0x43 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
+                0x10036548       0x43 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal16invalidParameterEv.str1.1
-                0x10036544       0x23 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
+                0x10036548       0x23 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal11clearScreenEv.str1.1
-                0x10036544       0x38 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
+                0x10036548       0x38 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal14terminalConfigEPS0_.str1.1
-                0x10036544       0x71 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
+                0x10036548       0x71 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal16clearCommandLineEv.str1.1
-                0x10036544        0xb /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal_codes.cpp.o
+                0x10036548        0xb /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal_codes.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal16printCommandLineEv.str1.1
-                0x10036544        0x5 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal_codes.cpp.o
+                0x10036548        0x5 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal_codes.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal3tabEv.str1.1
-                0x10036544       0x1c /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal_codes.cpp.o
+                0x10036548       0x1c /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal_codes.cpp.o
  .rodata._ZN15TerminalLibrary8Terminal10rightArrowEv.str1.1
-                0x10036544        0x5 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal_codes.cpp.o
+                0x10036548        0x5 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Terminal/terminal_codes.cpp.o
  .rodata._ZN10AsciiTableC2EPN15TerminalLibrary8TerminalE.str1.1
-                0x10036544        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/asciitable.cpp.o
+                0x10036548        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/asciitable.cpp.o
  .rodata._ZN10AsciiTable13printCellDataEN15TerminalLibrary5COLOREN7arduino6StringEi.str1.1
-                0x10036544        0x5 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/asciitable.cpp.o
+                0x10036548        0x5 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/asciitable.cpp.o
  .rodata._ZN10AsciiTable11printHeaderEv.str1.1
-                0x10036544        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/asciitable.cpp.o
+                0x10036548        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/asciitable.cpp.o
  .rodata._GLOBAL__sub_I__ZN10AsciiTableC2EPN15TerminalLibrary8TerminalE.str1.1
-                0x10036544       0x50 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/asciitable.cpp.o
+                0x10036548       0x50 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/asciitable.cpp.o
  .rodata._ZTV12ClassicQueue
-                0x10036544       0x28 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/datastructure.cpp.o
-                0x10036544                _ZTV12ClassicQueue
+                0x10036548       0x28 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/datastructure.cpp.o
+                0x10036548                _ZTV12ClassicQueue
  .rodata._ZTV12ClassicStack
-                0x1003656c       0x28 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/datastructure.cpp.o
-                0x1003656c                _ZTV12ClassicStack
+                0x10036570       0x28 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/datastructure.cpp.o
+                0x10036570                _ZTV12ClassicStack
  .rodata._ZTV5Mutex
-                0x10036594       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/lock.cpp.o
-                0x10036594                _ZTV5Mutex
+                0x10036598       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/lock.cpp.o
+                0x10036598                _ZTV5Mutex
  .rodata._ZTV7SemLock
-                0x100365a4       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/lock.cpp.o
-                0x100365a4                _ZTV7SemLock
+                0x100365a8       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/lock.cpp.o
+                0x100365a8                _ZTV7SemLock
  .rodata._ZN13ParameterList3getEv.str1.1
-                0x100365b4        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/parameter.cpp.o
+                0x100365b8        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/parameter.cpp.o
  .rodata._Z3tabii.str1.1
-                0x100365b4        0x3 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/stringutils.cpp.o
+                0x100365b8        0x3 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/stringutils.cpp.o
  .rodata._Z13hexByteStringh.str1.1
-                0x100365b4        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/stringutils.cpp.o
+                0x100365b8        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/stringutils.cpp.o
  .rodata._Z12getMacStringPh.str1.1
-                0x100365b4        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/stringutils.cpp.o
+                0x100365b8        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/stringutils.cpp.o
  .rodata._Z11getIPStringPh.str1.1
-                0x100365b4        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/stringutils.cpp.o
+                0x100365b8        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelUtil/stringutils.cpp.o
  .rodata._ZTV7TwoWire
-                0x100365b4       0x50 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Wire/Wire.a(Wire.cpp.o)
-                0x100365b4                _ZTV7TwoWire
- *fill*         0x10036604        0x4 
+                0x100365b8       0x50 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Wire/Wire.a(Wire.cpp.o)
+                0x100365b8                _ZTV7TwoWire
  .rodata        0x10036608      0x1c8 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Wire/Wire.a(Wire.cpp.o)
  .rodata._ZN9DhcpClass17send_DHCP_MESSAGEEht.str1.1
                 0x100367d0        0x7 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Ethernet/Dhcp.cpp.o
@@ -8668,7 +8668,7 @@ LOAD /home/user/.arduino15/packages/rp2040/tools/pqt-gcc/4.1.0-1aec55e/bin/../li
                 0x10036900       0x18 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEthernet/ethernetmodule.cpp.o
                 0x10036900                _ZTV11WiredServer
  .rodata.str1.1
-                0x10036918      0x205 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEthernet/ethernetmodule.cpp.o
+                0x10036918      0x206 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEthernet/ethernetmodule.cpp.o
  .rodata._ZL9libraries
                 0x10036918       0x84 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelEthernet/ethernetmodule.cpp.o
  .rodata._ZN14SimpleTestPage7getHtmlEP11HTMLBuilder.str1.1
@@ -8990,7 +8990,7 @@ LOAD /home/user/.arduino15/packages/rp2040/tools/pqt-gcc/4.1.0-1aec55e/bin/../li
  .rodata._ZN11GPIOManager10printTableEPN15TerminalLibrary8TerminalE.str1.1
                 0x10036e3c       0x69 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelGPIO/gpio.cpp.o
  .rodata.str1.1
-                0x10036e3c      0x2bd /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelGPIO/gpio.cpp.o
+                0x10036e3c      0x2be /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelGPIO/gpio.cpp.o
  .rodata.CSWTCH.71
                 0x10036e3c       0x2c /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelGPIO/gpio.cpp.o
  .rodata.CSWTCH.56
@@ -9035,7 +9035,7 @@ LOAD /home/user/.arduino15/packages/rp2040/tools/pqt-gcc/4.1.0-1aec55e/bin/../li
                 0x10036f28       0x10 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelTelnet/telnet.cpp.o
                 0x10036f28                _ZTV12TelnetModule
  .rodata.str1.1
-                0x10036f38      0x205 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelTelnet/telnet.cpp.o
+                0x10036f38      0x206 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelTelnet/telnet.cpp.o
  .rodata._ZL9libraries
                 0x10036f38       0x84 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelTelnet/telnet.cpp.o
  .rodata._ZN8Watchdog3getEv.str1.1
