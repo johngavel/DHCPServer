@@ -247,7 +247,8 @@ void showLeases(Terminal* terminal) {
   long current = millis();
   terminal->print(INFO, "Lease Time: ");
   terminal->println(INFO, String(DHCP_MEMORY.leaseTime));
-  terminal->println(INFO, "Availability: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
+  terminal->println(INFO,
+                    "Availability: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
 
   table.addColumn(Normal, "IpAddress", 17);
   table.addColumn(Green, "MAC Address", 19);
