@@ -14,5 +14,5 @@ jobs:
     - name: Install Cppcheck
       run: sudo apt-get update && sudo apt-get install cppcheck
     - name: Run Cppcheck
-      run: cppcheck --language=c++ --enable=warning,performance,portability --inconclusive --std=c99 -q -v --template=gcc --suppress=missingIncludeSystem --suppress=checkersReport --force src/
+      run: cppcheck --language=c++ --enable=warning,performance,portability --inconclusive --std=c99 -q -v --template=gcc --suppress=missingIncludeSystem --suppress=checkersReport --force .
       # Adjust paths and options as necessary

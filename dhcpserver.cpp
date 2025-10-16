@@ -28,7 +28,7 @@ static ImportProcessingFilePage importProcessingFilePage;
 
 void buildLeaseTable(HTMLBuilder* html) {
   long current = millis();
-  html->println("Availabilty: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1))->brTag();
+  html->println("Availability: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1))->brTag();
   html->openTag("table", "border=\"1\" class=\"center\"")->println();
   html->openTrTag()->println();
   html->thTag("Ignore")->println();
@@ -191,7 +191,7 @@ static bool removeLease(unsigned long __id) {
 
 void buildConfigLeaseTable(HTMLBuilder* html) {
   long current = millis();
-  html->println("Availabilty (Max Range is " + String(LEASESNUM) + "): ");
+  html->println("Availability (Max Range is " + String(LEASESNUM) + "): ");
   html->openTag("input",
                 "type=\"text\" maxlength=\"6\" size=\"6\" pattern=\"[^\\s]+\" value=\"" + String(DHCP_MEMORY.startAddressNumber) + "\" name=\"startAddress\"\"")
       ->closeTag();
@@ -385,7 +385,7 @@ public:
     }
 
     // The Range of the Addresses is as follows
-    // Availabilty:  {tempStartAddress} - {tempLeaseNum}
+    // Availability:  {tempStartAddress} - {tempLeaseNum}
     //                     101          -      200
     // Fourth Octet of the IP Address.
     // Convert the above two numbers to:

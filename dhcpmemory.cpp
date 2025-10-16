@@ -34,7 +34,7 @@ void DHCPMemory::setup() {
   TERM_CMD->addCmd("lease", "", "Displays the leases held in memory.", showLeases);
   TERM_CMD->addCmd("move", "[n] [n]", "Moves the lease from one IP to another.", moveLease);
   TERM_CMD->addCmd("remove", "[n]", "Removes the lease from the list.", removeLease);
-  TERM_CMD->addCmd("start", "[n]", "Changes the start octect address", startAddress);
+  TERM_CMD->addCmd("start", "[n]", "Changes the start octet address", startAddress);
   TERM_CMD->addCmd("num", "[n]", "Restricts the number of leases available.", leaseNum);
   TERM_CMD->addCmd("export", "", "Export Configuration to File System.", exportMemory);
   TERM_CMD->addCmd("import", "", "Import Configuration to File System.", importMemory);
@@ -232,7 +232,7 @@ static void configure(Terminal* terminal) {
     terminal->println(HELP, "config subnet [n] [n] [n] [n] ", "- Sets the Subnet Mask n.n.n.n");
     terminal->println(HELP, "config help/?          ", "- Print config Help");
     terminal->println();
-    terminal->println(HELP, "Note: Addresses use a space seperator, so "
+    terminal->println(HELP, "Note: Addresses use a space separator, so "
                             "\"192.168.168.4\" is \"192 168 168 4\"");
     terminal->println(HELP, "      Must Reboot the system for some changes to take effect");
   }
@@ -247,7 +247,7 @@ void showLeases(Terminal* terminal) {
   long current = millis();
   terminal->print(INFO, "Lease Time: ");
   terminal->println(INFO, String(DHCP_MEMORY.leaseTime));
-  terminal->println(INFO, "Availabilty: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
+  terminal->println(INFO, "Availability: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
 
   table.addColumn(Normal, "IpAddress", 17);
   table.addColumn(Green, "MAC Address", 19);
@@ -326,10 +326,10 @@ void startAddress(Terminal* terminal) {
       DHCP_MEMORY.startAddressNumber = address;
       success = true;
     }
-    terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
+    terminal->println(ERROR, "Address space and leases are restricted in the fourth octet to 1 - 254");
   }
-  terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
-  terminal->println((success) ? PASSED : FAILED, "Change Start Adderess Complete");
+  terminal->println(ERROR, "Address space and leases are restricted in the fourth octet to 1 - 254");
+  terminal->println((success) ? PASSED : FAILED, "Change Start Address Complete");
   terminal->prompt();
 }
 
@@ -341,9 +341,9 @@ void leaseNum(Terminal* terminal) {
       DHCP_MEMORY.leaseNum = number;
       success = true;
     }
-    terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
+    terminal->println(ERROR, "Address space and leases are restricted in the fourth octet to 1 - 254");
   }
-  terminal->println(ERROR, "Address space and leases are restricted in the fourth octect to 1 - 254");
+  terminal->println(ERROR, "Address space and leases are restricted in the fourth octet to 1 - 254");
   terminal->println((success) ? PASSED : FAILED, "Change Number of Leases Available Complete");
   terminal->prompt();
 }
