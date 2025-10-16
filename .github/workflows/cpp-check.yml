@@ -1,0 +1,18 @@
+name: Cppcheck Analysis
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  cppcheck:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Cppcheck
+      run: sudo apt-get update && sudo apt-get install cppcheck
+    - name: Run Cppcheck
+      run: cppcheck --language=c++ --enable=warning,performance,portability --inconclusive --std=c99 -q -v --template=gcc --suppress=missingIncludeSystem --suppress=checkersReport --force src/
+      # Adjust paths and options as necessary
