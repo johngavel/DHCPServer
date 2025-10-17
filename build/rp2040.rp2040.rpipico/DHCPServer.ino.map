@@ -10465,7 +10465,7 @@ LOAD /home/user/.arduino15/packages/rp2040/tools/pqt-gcc/4.1.0-1aec55e/bin/../li
  *(.tcommon)
                 0x200016dc                        __tls_end = .
 
-.bss            0x200016e0    0x13c5c load address 0x1003d84c
+.bss            0x200016e0    0x14c5c load address 0x1003d84c
                 0x200016e0                        . = ALIGN (0x4)
                 0x200016e0                        __tbss_end = .
  *(SORT_BY_ALIGNMENT(SORT_BY_NAME(.bss*)))
@@ -10872,91 +10872,91 @@ LOAD /home/user/.arduino15/packages/rp2040/tools/pqt-gcc/4.1.0-1aec55e/bin/../li
  .bss._ZL12scaleInitted
                 0x2000817a        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(wiring_analog.cpp.o)
  .bss._ZL13executeBuffer
-                0x2000817b     0x1000 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelSSETerminal/sseconsole.cpp.o
+                0x2000817b     0x2000 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelSSETerminal/sseconsole.cpp.o
  .bss._ZL14__pioAllocated
-                0x2000917b        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(PIOProgram.cpp.o)
- .bss._ZL3_pm   0x2000917d       0x1e /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(wiring_digital.cpp.o)
- .bss._ZL4html  0x2000919b     0xc000 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelServer/html.cpp.o
+                0x2000a17b        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(PIOProgram.cpp.o)
+ .bss._ZL3_pm   0x2000a17d       0x1e /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(wiring_digital.cpp.o)
+ .bss._ZL4html  0x2000a19b     0xc000 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/GavelServer/html.cpp.o
  .bss._ZN10W5100Class11CH_BASE_MSBE
-                0x2001519b        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Ethernet/utility/w5100.cpp.o
-                0x2001519b                _ZN10W5100Class11CH_BASE_MSBE
+                0x2001619b        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Ethernet/utility/w5100.cpp.o
+                0x2001619b                _ZN10W5100Class11CH_BASE_MSBE
  .bss._ZN10W5100Class4chipE
-                0x2001519c        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Ethernet/utility/w5100.cpp.o
-                0x2001519c                _ZN10W5100Class4chipE
+                0x2001619c        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Ethernet/utility/w5100.cpp.o
+                0x2001619c                _ZN10W5100Class4chipE
  .bss._ZZN10W5100Class4initEvE11initialized
-                0x2001519d        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Ethernet/utility/w5100.cpp.o
+                0x2001619d        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Ethernet/utility/w5100.cpp.o
  .bss._ZZN8USBClass24tud_descriptor_device_cbEvE8idString
-                0x2001519e       0x19 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(USB.cpp.o)
+                0x2001619e       0x19 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(USB.cpp.o)
  .bss.__freeRTOSinitted
-                0x200151b7        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(main.cpp.o)
-                0x200151b7                __freeRTOSinitted
+                0x200161b7        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(main.cpp.o)
+                0x200161b7                __freeRTOSinitted
  .bss.__otherCoreIdled
-                0x200151b8        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(main.cpp.o)
-                0x200151b8                __otherCoreIdled
+                0x200161b8        0x1 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(main.cpp.o)
+                0x200161b8                __otherCoreIdled
  .bss._app_driver_count
-                0x200151b9        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(usbd.c.o)
+                0x200161b9        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(usbd.c.o)
  .bss._cdcd_fifo_cfg
-                0x200151ba        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(cdc_device.c.o)
+                0x200161ba        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(cdc_device.c.o)
  .bss._sof_enable
-                0x200151bb        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(dcd_rp2040.c.o)
+                0x200161bb        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(dcd_rp2040.c.o)
  .bss._tusb_rhport_role
-                0x200151bc        0x2 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(tusb.c.o)
-                0x200151bc                _tusb_rhport_role
+                0x200161bc        0x2 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(tusb.c.o)
+                0x200161bc                _tusb_rhport_role
  .bss._usbd_dev
-                0x200151be       0x54 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(usbd.c.o)
+                0x200161be       0x54 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(usbd.c.o)
  .bss._usbd_qdef_buf
-                0x20015212       0xc0 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(usbd.c.o)
-                0x20015212                _usbd_qdef_buf
+                0x20016212       0xc0 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(usbd.c.o)
+                0x20016212                _usbd_qdef_buf
  .bss._usbd_queued_setup
-                0x200152d2        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(usbd.c.o)
+                0x200162d2        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(usbd.c.o)
  .bss.boot2_copyout_valid
-                0x200152d3        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(flash.c.o)
+                0x200162d3        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(flash.c.o)
  .bss.bus_counter_idx
-                0x200152d4        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
+                0x200162d4        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
  .bss.check_byte.1
-                0x200152d5        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
- .bss.claimed   0x200152d6        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(timer.c.o)
- .bss.claimed   0x200152d7        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(pio.c.o)
+                0x200162d5        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
+ .bss.claimed   0x200162d6        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(timer.c.o)
+ .bss.claimed   0x200162d7        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(pio.c.o)
  .bss.irq_handler_chain_free_slot_head
-                0x200152d8        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(irq.c.o)
- .bss.quads     0x200152d9        0x4 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPLite.cpp.o
-                0x200152d9                quads
+                0x200162d8        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(irq.c.o)
+ .bss.quads     0x200162d9        0x4 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/sketch/DHCPLite.cpp.o
+                0x200162d9                quads
  .bss.retrieved_id
-                0x200152dd        0x8 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(unique_id.c.o)
+                0x200162dd        0x8 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(unique_id.c.o)
  .bss.rng_initialised
-                0x200152e5        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
+                0x200162e5        0x1 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
  .bss.ucOwnedByCore.1
-                0x200152e6        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(tasks.c.o)
+                0x200162e6        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(tasks.c.o)
  .bss.ucRecursionCountByLock.0
-                0x200152e8        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(tasks.c.o)
+                0x200162e8        0x2 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(tasks.c.o)
  .bss.ucStaticTimerQueueStorage.1
-                0x200152ea       0x50 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(timers.c.o)
+                0x200162ea       0x50 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/core/core.a(timers.c.o)
  *(COMMON)
-                0x2001533c                        . = ALIGN (0x4)
- *fill*         0x2001533a        0x2 
-                0x2001533c                        __bss_end__ = .
+                0x2001633c                        . = ALIGN (0x4)
+ *fill*         0x2001633a        0x2 
+                0x2001633c                        __bss_end__ = .
 
 .uninitialized_ram
  *(.uninitialized_ram*)
 
 .uninitialized_data
-                0x2001533c       0x24
+                0x2001633c       0x24
  *(.uninitialized_data*)
- *fill*         0x2001533c        0x4 
+ *fill*         0x2001633c        0x4 
  .uninitialized_data.rosc_samples
-                0x20015340        0x8 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
+                0x20016340        0x8 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
  .uninitialized_data.ram_hash
-                0x20015348        0x8 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
+                0x20016348        0x8 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
  .uninitialized_data.rng_state
-                0x20015350       0x10 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
+                0x20016350       0x10 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(rand.c.o)
 
-.heap           0x20015360    0x2aca0
-                0x20015360                        __end__ = .
-                0x20015360                        end = __end__
+.heap           0x20016360    0x29ca0
+                0x20016360                        __end__ = .
+                0x20016360                        end = __end__
  *(.heap*)
- .heap          0x20015360      0x800 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(crt0.S.o)
+ .heap          0x20016360      0x800 /home/user/.arduino15/packages/rp2040/hardware/rp2040/5.4.0/lib/rp2040/libpico.a(crt0.S.o)
                 0x20040000                        . = (ORIGIN (RAM) + LENGTH (RAM))
- *fill*         0x20015b60    0x2a4a0 
+ *fill*         0x20016b60    0x294a0 
                 0x20040000                        __HeapLimit = .
 
 .scratch_x      0x20040000        0x0 load address 0x1003d84c
