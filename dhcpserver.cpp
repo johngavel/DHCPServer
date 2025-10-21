@@ -2,6 +2,7 @@
 
 #include "DHCPLite.h"
 #include "dhcpmemory.h"
+#include "favicon.h"
 #include "leases.h"
 
 #include <commonhtml.h>
@@ -590,4 +591,5 @@ void setupServerModule() {
   SERVER->setFormProcessingPage(&configIPPage);
   SERVER->setPage(&configDHCPPage);
   SERVER->setFormProcessingPage(&configDHCPPage);
+  SERVER->setFavicon(favicon, favicon_len);
 }
