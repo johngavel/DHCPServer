@@ -10,7 +10,7 @@ BUILD="$1"
 CURRENT_DIR="$2"
 
 build() {
-  favicon.sh "$CURRENT_DIR"/assets/favicon_blue.ico "$CURRENT_DIR"/favicon.h
+  createfileheader.sh "$CURRENT_DIR"/assets/favicon_blue.ico "$CURRENT_DIR"/favicon.h favicon
 }
 
 case "$BUILD" in
