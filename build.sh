@@ -15,7 +15,7 @@ build() {
 
 case "$BUILD" in
   --clean)
-    rm "$CURRENT_DIR"/favicon.h
+    Delete "$CURRENT_DIR"/favicon.h
     ;;
   --pre)
     build
