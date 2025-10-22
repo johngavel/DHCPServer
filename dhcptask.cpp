@@ -1,7 +1,10 @@
 #include "dhcptask.h"
 
+#include "dhcplite_license.h"
+
 #include <license.h>
 #include <serialport.h>
+#include <servermodule.h>
 
 DHCPTask dhcpTask;
 extern DHCPMemory dhcpMemory;
@@ -10,7 +13,9 @@ void DHCPTask::setupTask() {
   broadcast = new IPAddress(dhcpMemory.broadcastAddress[0], dhcpMemory.broadcastAddress[1], dhcpMemory.broadcastAddress[2], dhcpMemory.broadcastAddress[3]);
   Udp.begin(DHCP_SERVER_PORT);
   setRefreshMilli(10);
-  LICENSE_ADD("DHCPLite", "0.14", "DHCP_LICENSE.txt");
+
+  LICENSE_ADD("DHCPLite", "0.14", DHCPLite_string);
+  SERVER->setDigitalFile((String("license/") + String(DHCPLite_string)).c_str(), DHCPLite, DHCPLite_len);
   CONSOLE->println(PASSED, "DHCP Server Task Complete");
 }
 
