@@ -20,7 +20,7 @@ const char* ProgramInfo::AppName = "DHCPServer";
 const char* ProgramInfo::ShortName = "dhcp";
 const unsigned char ProgramInfo::ProgramNumber = 0x08;
 const unsigned char ProgramInfo::MajorVersion = 0x01;
-const unsigned char ProgramInfo::MinorVersion = 0x05;
+const unsigned char ProgramInfo::MinorVersion = 0x06;
 const unsigned long ProgramInfo::BuildVersion = GAVEL_VERSION;
 const char* ProgramInfo::AuthorName = "John J. Gavel";
 const HardwareWire ProgramInfo::hardwarewire = HardwareWire(&Wire, 4, 5);
@@ -52,6 +52,7 @@ void setup() {
   GPIO->setup();
   LICENSE->setup();
   WATCHDOG->setup();
+  WATCHDOG->setRebootCallback(EEpromMemory::eeprom_force);
   setup0Complete();
 }
 
