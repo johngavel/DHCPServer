@@ -4,7 +4,7 @@
 #include "leases.h"
 
 #include <Terminal.h>
-#include <asciitable.h>
+#include <asciitable/asciitable.h>
 #include <export.h>
 #include <serialport.h>
 #include <stringutils.h>
@@ -12,15 +12,15 @@
 
 DHCPMemory dhcpMemory;
 
-static void configure(Terminal* terminal);
-static void showLeases(Terminal* terminal);
-static void moveLease(Terminal* terminal);
-static void removeLease(Terminal* terminal);
-static void startAddress(Terminal* terminal);
-static void leaseNum(Terminal* terminal);
-static void ignoreUnit(Terminal* terminal);
-static void importMemory(Terminal* terminal);
-static void exportMemory(Terminal* terminal);
+static void configure(OutputInterface* terminal);
+static void showLeases(OutputInterface* terminal);
+static void moveLease(OutputInterface* terminal);
+static void removeLease(OutputInterface* terminal);
+static void startAddress(OutputInterface* terminal);
+static void leaseNum(OutputInterface* terminal);
+static void ignoreUnit(OutputInterface* terminal);
+static void importMemory(OutputInterface* terminal);
+static void exportMemory(OutputInterface* terminal);
 
 void DHCPMemory::updateBroadcast() {
   broadcastAddress[0] = ~memory.mem.subnetMask[0] | memory.mem.ipAddress[0];
@@ -77,7 +77,7 @@ void DHCPMemory::initMemory() {
   updateBroadcast();
 }
 
-void DHCPMemory::printData(Terminal* terminal) {
+void DHCPMemory::printData(OutputInterface* terminal) {
   EEPROM_TAKE;
   terminal->print(INFO, "Lease Time: ");
   terminal->println(INFO, String(memory.mem.leaseTime));
@@ -126,7 +126,7 @@ unsigned long DHCPMemory::getLength() {
 
 enum ConfigItem { None = 0, LeaseTime, IpAddress, IpDNS, IpSubnet, IpGW };
 
-static void configure(Terminal* terminal) {
+static void configure(OutputInterface* terminal) {
   char* value;
   ConfigItem item = None;
   unsigned long parameters[4];
@@ -241,7 +241,7 @@ static void configure(Terminal* terminal) {
   terminal->prompt();
 }
 
-void showLeases(Terminal* terminal) {
+void showLeases(OutputInterface* terminal) {
   AsciiTable table(terminal);
   byte ipAddress[4] = {0, 0, 0, 0};
   long current = millis();
@@ -282,7 +282,7 @@ void showLeases(Terminal* terminal) {
   terminal->prompt();
 }
 
-void moveLease(Terminal* terminal) {
+void moveLease(OutputInterface* terminal) {
   bool success = false;
   int from = atoi(terminal->readParameter()) - DHCP_MEMORY.startAddressNumber;
   int to = atoi(terminal->readParameter()) - DHCP_MEMORY.startAddressNumber;
@@ -298,7 +298,7 @@ void moveLease(Terminal* terminal) {
   terminal->prompt();
 }
 
-void removeLease(Terminal* terminal) {
+void removeLease(OutputInterface* terminal) {
   bool success = false;
   String parameter = terminal->readParameter();
   if (parameter == "all") {
@@ -319,7 +319,7 @@ void removeLease(Terminal* terminal) {
   terminal->prompt();
 }
 
-void startAddress(Terminal* terminal) {
+void startAddress(OutputInterface* terminal) {
   bool success = false;
   int address = atoi(terminal->readParameter());
   if ((address > 1) && (address < 255)) {
@@ -334,7 +334,7 @@ void startAddress(Terminal* terminal) {
   terminal->prompt();
 }
 
-void leaseNum(Terminal* terminal) {
+void leaseNum(OutputInterface* terminal) {
   bool success = false;
   int number = atoi(terminal->readParameter());
   if ((number >= 0) && (number < LEASESNUM)) {
@@ -349,7 +349,7 @@ void leaseNum(Terminal* terminal) {
   terminal->prompt();
 }
 
-void exportMemory(Terminal* terminal) {
+void exportMemory(OutputInterface* terminal) {
   DHCP_DATA->exportMem();
   terminal->println(PASSED, "Export Complete.");
   terminal->prompt();
@@ -369,7 +369,7 @@ void DHCPMemory::exportMem() {
   exportMem.close();
 }
 
-void importMemory(Terminal* terminal) {
+void importMemory(OutputInterface* terminal) {
   DHCP_DATA->importMem();
   terminal->println(PASSED, "Import Complete.");
   terminal->prompt();
@@ -408,7 +408,7 @@ void DHCPMemory::importMem() {
   EEPROM_FORCE;
 }
 
-void ignoreUnit(Terminal* terminal) {
+void ignoreUnit(OutputInterface* terminal) {
   bool success = false;
   int number = atoi(terminal->readParameter()) - DHCP_MEMORY.startAddressNumber;
   int ignore = atoi(terminal->readParameter());
