@@ -13,16 +13,16 @@ case "$BUILD" in
   --clean)
     Delete "$CURRENT_DIR"/favicon.h
     Delete "$CURRENT_DIR"/dhcplite_license.h
-    create_libraries_used.sh --clean $HOME_DIR/libraries/GavelLicense
+    create_libraries_used.sh --clean $HOME_DIR/LibraryV1.0/GavelLicense
 
     ;;
   --pre)
     createfileheader.sh "$CURRENT_DIR"/assets/DHCPLite_LICENSE.txt "$CURRENT_DIR"/dhcplite_license.h DHCPLite
     createfileheader.sh "$CURRENT_DIR"/assets/favicon_blue.ico "$CURRENT_DIR"/favicon.h favicon
-    create_libraries_used.sh --build $HOME_DIR/libraries/GavelLicense ETHERNET_USED TERMINAL_USED I2C_EEPROM_USED
+    create_libraries_used.sh --build $HOME_DIR/LibraryV1.0/GavelLicense ETHERNET_USED TERMINAL_USED I2C_EEPROM_USED
     ;;
   --post)
-    create_libraries_used.sh --clean $HOME_DIR/libraries/GavelLicense
+    create_libraries_used.sh --clean $HOME_DIR/LibraryV1.0/GavelLicense
     ;;
   --build)
     createfileheader.sh "$CURRENT_DIR"/assets/DHCPLite_LICENSE.txt "$CURRENT_DIR"/dhcplite_license.h DHCPLite
