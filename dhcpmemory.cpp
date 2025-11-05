@@ -159,9 +159,9 @@ static void configure(OutputInterface* terminal) {
   } else if ((strncmp("?", value, 1) == 0) || (strncmp("help", value, 1) == 0)) {
     item = None;
   } else {
-    terminal->print(WARNING, "Invalid Config: <");
+    terminal->print(INFO, "Invalid Config: <");
     terminal->print(WARNING, value);
-    terminal->println(WARNING, ">");
+    terminal->println(INFO, ">");
     item = None;
     commandComplete = false;
   }
