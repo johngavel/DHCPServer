@@ -1391,7 +1391,7 @@ Discarded input sections
                 0x00000000      0x108 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Adafruit_SSD1306/Adafruit_SSD1306.cpp.o
  .debug_rnglists
                 0x00000000      0x22d /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Adafruit_SSD1306/Adafruit_SSD1306.cpp.o
- .debug_line    0x00000000     0x2017 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Adafruit_SSD1306/Adafruit_SSD1306.cpp.o
+ .debug_line    0x00000000     0x1f0e /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Adafruit_SSD1306/Adafruit_SSD1306.cpp.o
  .debug_str     0x00000000     0x384f /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Adafruit_SSD1306/Adafruit_SSD1306.cpp.o
  .comment       0x00000000       0x13 /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Adafruit_SSD1306/Adafruit_SSD1306.cpp.o
  .debug_frame   0x00000000      0x35c /home/user/.cache/arduino/sketches/703C4A189FA2A321B807C3FBF175607C/libraries/Adafruit_SSD1306/Adafruit_SSD1306.cpp.o
