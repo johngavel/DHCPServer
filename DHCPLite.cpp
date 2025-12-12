@@ -94,7 +94,8 @@ int DHCPreply(RIP_MSG* packet, int packetSize, byte* serverIP, const char* domai
     case dhcpDns:
     case dhcpRoutersOnSubnet: currLoc += populatePacket(packet->OPT, currLoc, reqList[i], serverIP, 4); break;
     case dhcpDomainName:
-      if (domainName && strlen(domainName)) currLoc += populatePacket(packet->OPT, currLoc, reqList[i], (byte*) domainName, strlen(domainName));
+      if (domainName && strlen(domainName))
+        currLoc += populatePacket(packet->OPT, currLoc, reqList[i], (byte*) domainName, strlen(domainName));
       break;
     }
   }

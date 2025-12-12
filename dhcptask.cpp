@@ -10,7 +10,8 @@ DHCPTask dhcpTask;
 extern DHCPMemory dhcpMemory;
 
 void DHCPTask::setupTask() {
-  broadcast = new IPAddress(dhcpMemory.broadcastAddress[0], dhcpMemory.broadcastAddress[1], dhcpMemory.broadcastAddress[2], dhcpMemory.broadcastAddress[3]);
+  broadcast = new IPAddress(dhcpMemory.broadcastAddress[0], dhcpMemory.broadcastAddress[1],
+                            dhcpMemory.broadcastAddress[2], dhcpMemory.broadcastAddress[3]);
   Udp.begin(DHCP_SERVER_PORT);
   setRefreshMilli(10);
 

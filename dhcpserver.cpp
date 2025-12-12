@@ -29,7 +29,9 @@ static ImportProcessingFilePage importProcessingFilePage;
 
 void buildLeaseTable(HTMLBuilder* html) {
   long current = millis();
-  html->println("Availability: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1))->brTag();
+  html->println("Availability: " + String(DHCP_MEMORY.startAddressNumber) + " - " +
+                String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1))
+      ->brTag();
   html->openTag("table", "border=\"1\" class=\"center\"")->println();
   html->openTrTag()->println();
   html->thTag("Ignore")->println();
@@ -53,8 +55,8 @@ void buildLeaseTable(HTMLBuilder* html) {
       Lease::getLeaseIPAddress(i, ipAddress);
       html->openTrTag()->println();
       html->openTdTag()
-          ->closeTag("input",
-                     "type=\"checkbox\" id=\"nak" + String(i) + "\" name=\"nak" + String(i) + "\" disabled" + ((Lease::ignoreLease(i)) ? " checked " : " "))
+          ->closeTag("input", "type=\"checkbox\" id=\"nak" + String(i) + "\" name=\"nak" + String(i) + "\" disabled" +
+                                  ((Lease::ignoreLease(i)) ? " checked " : " "))
           ->closeTag()
           ->println();
       html->tdTag(getIPString(ipAddress))->println();
@@ -89,8 +91,22 @@ public:
     html->println(timeString(Lease::getLeaseTime()));
     buildLeaseTable(html);
     html->openTag("table", "class=\"center\"")->openTrTag()->println();
-    html->openTdTag()->openTag("a", "href=\"/dhcpconfig\"")->print("DHCP Server Config")->closeTag()->closeTag()->closeTag()->println();
-    html->openTrTag()->openTdTag()->openTag("a", "href=\"/server\"")->print("Server Control")->closeTag()->closeTag()->closeTag()->closeTag()->println();
+    html->openTdTag()
+        ->openTag("a", "href=\"/dhcpconfig\"")
+        ->print("DHCP Server Config")
+        ->closeTag()
+        ->closeTag()
+        ->closeTag()
+        ->println();
+    html->openTrTag()
+        ->openTdTag()
+        ->openTag("a", "href=\"/server\"")
+        ->print("Server Control")
+        ->closeTag()
+        ->closeTag()
+        ->closeTag()
+        ->closeTag()
+        ->println();
     sendPageEnd(html);
     return html;
   }
@@ -102,13 +118,16 @@ public:
   ServerPage() { setPageName("server"); };
   HTMLBuilder* getHtml(HTMLBuilder* html) {
     sendPageBegin(html);
-    String versionString =
-        "Ver. " + String(ProgramInfo::MajorVersion) + String(".") + String(ProgramInfo::MinorVersion) + String(".") + String(ProgramInfo::BuildVersion);
+    String versionString = "Ver. " + String(ProgramInfo::MajorVersion) + String(".") +
+                           String(ProgramInfo::MinorVersion) + String(".") + String(ProgramInfo::BuildVersion);
 
     html->openTag("h2")->print(ProgramInfo::AppName)->closeTag()->println();
     html->openTag("table", "class=\"center\"")->openTrTag();
     html->tdTag(versionString)->closeTag()->println();
-    html->openTrTag()->tdTag("Build Date: " + String(ProgramInfo::compileDate) + " Time: " + String(ProgramInfo::compileTime))->closeTag()->println();
+    html->openTrTag()
+        ->tdTag("Build Date: " + String(ProgramInfo::compileDate) + " Time: " + String(ProgramInfo::compileTime))
+        ->closeTag()
+        ->println();
     html->openTrTag()->tdTag("Author: " + String(ProgramInfo::AuthorName))->closeTag()->closeTag()->println();
     html->println();
 
@@ -135,12 +154,53 @@ public:
     html->closeTag()->brTag()->println();
 
     html->openTag("table", "class=\"center\"");
-    html->openTrTag()->openTdTag()->openTag("a", "href=\"/ipconfig\"")->print("Configure IP Addresses")->closeTag()->closeTag()->closeTag()->println();
-    html->openTrTag()->openTdTag()->openTag("a", "href=\"/import\"")->print("Import Server Configuration")->closeTag()->closeTag()->closeTag()->println();
-    html->openTrTag()->openTdTag()->openTag("a", "href=\"/export\"")->print("Export Server Configuration")->closeTag()->closeTag()->closeTag()->println();
-    html->openTrTag()->openTdTag()->openTag("a", "href=\"/upgrade\"")->print("Upgrade the DHCP Server")->closeTag()->closeTag()->closeTag()->println();
-    html->openTrTag()->openTdTag()->openTag("a", "href=\"/code\"")->print("Source Code of the DHCP Server")->closeTag()->closeTag()->closeTag()->println();
-    html->openTrTag()->openTdTag()->openTag("a", "href=\"/terminal\"")->print("Console Terminal for the Pico Power Switch")->closeTag()->closeTag()->closeTag();
+    html->openTrTag()
+        ->openTdTag()
+        ->openTag("a", "href=\"/ipconfig\"")
+        ->print("Configure IP Addresses")
+        ->closeTag()
+        ->closeTag()
+        ->closeTag()
+        ->println();
+    html->openTrTag()
+        ->openTdTag()
+        ->openTag("a", "href=\"/import\"")
+        ->print("Import Server Configuration")
+        ->closeTag()
+        ->closeTag()
+        ->closeTag()
+        ->println();
+    html->openTrTag()
+        ->openTdTag()
+        ->openTag("a", "href=\"/export\"")
+        ->print("Export Server Configuration")
+        ->closeTag()
+        ->closeTag()
+        ->closeTag()
+        ->println();
+    html->openTrTag()
+        ->openTdTag()
+        ->openTag("a", "href=\"/upgrade\"")
+        ->print("Upgrade the DHCP Server")
+        ->closeTag()
+        ->closeTag()
+        ->closeTag()
+        ->println();
+    html->openTrTag()
+        ->openTdTag()
+        ->openTag("a", "href=\"/code\"")
+        ->print("Source Code of the DHCP Server")
+        ->closeTag()
+        ->closeTag()
+        ->closeTag()
+        ->println();
+    html->openTrTag()
+        ->openTdTag()
+        ->openTag("a", "href=\"/terminal\"")
+        ->print("Console Terminal for the Pico Power Switch")
+        ->closeTag()
+        ->closeTag()
+        ->closeTag();
     html->closeTag()->brTag()->println();
     html->openTag("table", "class=\"center\"");
     html->openTrTag()
@@ -193,12 +253,13 @@ static bool removeLease(unsigned long __id) {
 void buildConfigLeaseTable(HTMLBuilder* html) {
   long current = millis();
   html->println("Availability (Max Range is " + String(LEASESNUM) + "): ");
-  html->openTag("input",
-                "type=\"text\" maxlength=\"6\" size=\"6\" pattern=\"[^\\s]+\" value=\"" + String(DHCP_MEMORY.startAddressNumber) + "\" name=\"startAddress\"\"")
+  html->openTag("input", "type=\"text\" maxlength=\"6\" size=\"6\" pattern=\"[^\\s]+\" value=\"" +
+                             String(DHCP_MEMORY.startAddressNumber) + "\" name=\"startAddress\"\"")
       ->closeTag();
   html->println(" - ");
   html->openTag("input", "type=\"text\" maxlength=\"6\" size=\"6\" pattern=\"[^\\s]+\" value=\"" +
-                             String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1) + "\" name=\"leaseNum\"\"")
+                             String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1) +
+                             "\" name=\"leaseNum\"\"")
       ->closeTag();
   html->brTag();
   html->openTag("table", "border=\"1\" class=\"center\"")->println();
@@ -225,7 +286,8 @@ void buildConfigLeaseTable(HTMLBuilder* html) {
       Lease::getLeaseIPAddress(i, ipAddress);
       html->openTrTag()->println();
       html->openTdTag()
-          ->closeTag("input", "type=\"checkbox\" id=\"nak" + String(i) + "\" name=\"nak" + String(i) + "\"" + ((Lease::ignoreLease(i)) ? " checked " : " "))
+          ->closeTag("input", "type=\"checkbox\" id=\"nak" + String(i) + "\" name=\"nak" + String(i) + "\"" +
+                                  ((Lease::ignoreLease(i)) ? " checked " : " "))
           ->closeTag()
           ->println();
       html->tdTag(getIPString(ipAddress))->println();
@@ -259,7 +321,8 @@ public:
         ->tdTag("")
         ->tdTag("Lease Time (s)")
         ->openTdTag()
-        ->openTag("input", "type=\"text\" maxlength=\"6\" size=\"6\" pattern=\"[^\\s]+\" value=\"" + String(Lease::getLeaseTime()) + "\" name=\"leaseTime\"\"")
+        ->openTag("input", "type=\"text\" maxlength=\"6\" size=\"6\" pattern=\"[^\\s]+\" value=\"" +
+                               String(Lease::getLeaseTime()) + "\" name=\"leaseTime\"\"")
         ->closeTag()
         ->closeTag()
         ->closeTag()
@@ -273,14 +336,14 @@ public:
         ->closeTag()
         ->tdTag("From:")
         ->openTdTag()
-        ->openTag("input",
-                  "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(DHCP_MEMORY.startAddressNumber) + "\" name=\"from\"\"")
+        ->openTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                               String(DHCP_MEMORY.startAddressNumber) + "\" name=\"from\"\"")
         ->closeTag()
         ->closeTag()
         ->tdTag("To:")
         ->openTdTag()
-        ->openTag("input",
-                  "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(DHCP_MEMORY.startAddressNumber) + "\" name=\"to\"\"")
+        ->openTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                               String(DHCP_MEMORY.startAddressNumber) + "\" name=\"to\"\"")
         ->closeTag()
         ->closeTag()
         ->closeTag()
@@ -294,8 +357,8 @@ public:
         ->closeTag()
         ->tdTag("Delete:")
         ->openTdTag()
-        ->openTag("input",
-                  "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(DHCP_MEMORY.startAddressNumber) + "\" name=\"deleteid\"\"")
+        ->openTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                               String(DHCP_MEMORY.startAddressNumber) + "\" name=\"deleteid\"\"")
         ->closeTag()
         ->closeTag()
         ->tdTag("")
@@ -392,9 +455,9 @@ public:
     // Convert the above two numbers to:
     //   Start Address, fourth octet of the IP Address.
     //   LeaseNum, the number of leases to give out.
-    if ((tempStartAddress > 1) && (tempStartAddress < 255))       // Validate Input
-      if ((tempLeaseNum > 1) && (tempLeaseNum < 255))             // Validate Input
-        if (tempLeaseNum >= tempStartAddress)                     // End of the Range has to be greater than the beginning.
+    if ((tempStartAddress > 1) && (tempStartAddress < 255)) // Validate Input
+      if ((tempLeaseNum > 1) && (tempLeaseNum < 255))       // Validate Input
+        if (tempLeaseNum >= tempStartAddress)               // End of the Range has to be greater than the beginning.
           if ((tempLeaseNum - tempStartAddress + 1) <= LEASESNUM) // Valid Number of Leases available.
           {
             DHCP_MEMORY.startAddressNumber = tempStartAddress;
@@ -421,19 +484,23 @@ public:
     byte* address = DHCP_MEMORY.ipAddress;
     html->openTrTag()->tdTag("IPAddress");
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[0]) + "\" name=\"ip0\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[0]) + "\" name=\"ip0\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[1]) + "\" name=\"ip1\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[1]) + "\" name=\"ip1\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[2]) + "\" name=\"ip2\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[2]) + "\" name=\"ip2\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[3]) + "\" name=\"ip3\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[3]) + "\" name=\"ip3\"\"")
         ->closeTag()
         ->println();
     html->closeTag()->println();
@@ -441,19 +508,23 @@ public:
     address = DHCP_MEMORY.subnetMask;
     html->openTrTag()->tdTag("Subnet Mask");
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[0]) + "\" name=\"sm0\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[0]) + "\" name=\"sm0\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[1]) + "\" name=\"sm1\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[1]) + "\" name=\"sm1\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[2]) + "\" name=\"sm2\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[2]) + "\" name=\"sm2\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[3]) + "\" name=\"sm3\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[3]) + "\" name=\"sm3\"\"")
         ->closeTag()
         ->println();
     html->closeTag()->println();
@@ -461,19 +532,23 @@ public:
     address = DHCP_MEMORY.gatewayAddress;
     html->openTrTag()->tdTag("Gateway Address");
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[0]) + "\" name=\"ga0\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[0]) + "\" name=\"ga0\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[1]) + "\" name=\"ga1\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[1]) + "\" name=\"ga1\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[2]) + "\" name=\"ga2\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[2]) + "\" name=\"ga2\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[3]) + "\" name=\"ga3\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[3]) + "\" name=\"ga3\"\"")
         ->closeTag()
         ->println();
     html->closeTag()->println();
@@ -481,19 +556,23 @@ public:
     address = DHCP_MEMORY.dnsAddress;
     html->openTrTag()->tdTag("DNS Address");
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[0]) + "\" name=\"da0\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[0]) + "\" name=\"da0\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[1]) + "\" name=\"da1\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[1]) + "\" name=\"da1\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[2]) + "\" name=\"da2\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[2]) + "\" name=\"da2\"\"")
         ->closeTag()
         ->println();
     html->openTdTag()
-        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" + String(address[3]) + "\" name=\"da3\"\"")
+        ->closeTag("input", "type=\"text\" maxlength=\"3\" size=\"3\" pattern=\"[^\\s]+\" value=\"" +
+                                String(address[3]) + "\" name=\"da3\"\"")
         ->closeTag()
         ->println();
     html->closeTag()->println();

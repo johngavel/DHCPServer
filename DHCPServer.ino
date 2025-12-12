@@ -39,7 +39,8 @@ void setup() {
   EEPROM->configure(I2C_DEVICESIZE_24LC256);
   EEPROM->setData(&dhcpMemory);
   EEPROM->setup();
-  ETHERNET->configure(DHCP_MEMORY.macAddress, false, DHCP_MEMORY.ipAddress, DHCP_MEMORY.dnsAddress, DHCP_MEMORY.subnetMask, DHCP_MEMORY.gatewayAddress);
+  ETHERNET->configure(DHCP_MEMORY.macAddress, false, DHCP_MEMORY.ipAddress, DHCP_MEMORY.dnsAddress,
+                      DHCP_MEMORY.subnetMask, DHCP_MEMORY.gatewayAddress);
   ETHERNET->setup();
   dhcpTask.setup();
   SERVER->configure(ETHERNET->getServer(HTTP_PORT));

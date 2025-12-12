@@ -247,8 +247,8 @@ void showLeases(OutputInterface* terminal) {
   long current = millis();
   terminal->print(INFO, "Lease Time: ");
   terminal->println(INFO, String(DHCP_MEMORY.leaseTime));
-  terminal->println(INFO,
-                    "Availability: " + String(DHCP_MEMORY.startAddressNumber) + " - " + String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
+  terminal->println(INFO, "Availability: " + String(DHCP_MEMORY.startAddressNumber) + " - " +
+                              String(DHCP_MEMORY.leaseNum + DHCP_MEMORY.startAddressNumber - 1));
 
   table.addColumn(Normal, "IpAddress", 17);
   table.addColumn(Green, "MAC Address", 19);
@@ -365,7 +365,9 @@ void DHCPMemory::exportMem() {
   exportMem.exportData("dnsAddress", DHCP_MEMORY.dnsAddress, 4);
   exportMem.exportData("subnetMask", DHCP_MEMORY.subnetMask, 4);
   exportMem.exportData("gatewayAddress", DHCP_MEMORY.gatewayAddress, 4);
-  for (int i = 0; i < LEASESNUM; i++) { exportMem.exportData("leasesMac" + String(i), DHCP_MEMORY.leasesMac[i].macAddress, 6); }
+  for (int i = 0; i < LEASESNUM; i++) {
+    exportMem.exportData("leasesMac" + String(i), DHCP_MEMORY.leasesMac[i].macAddress, 6);
+  }
   exportMem.close();
 }
 

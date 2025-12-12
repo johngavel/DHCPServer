@@ -61,7 +61,8 @@ byte Lease::getLease(byte* __macAddress) {
   // and for DHCP DISCOVER we will check once more to assign a new lease
   long currTime = millis();
   for (byte lease = 0; lease < DHCP_MEMORY.leaseNum; lease++) {
-    if ((validLease(lease)) && (dhcpMemory.leaseStatus[lease].expires < currTime)) dhcpMemory.leaseStatus[lease].status = DHCP_LEASE_AVAIL;
+    if ((validLease(lease)) && (dhcpMemory.leaseStatus[lease].expires < currTime))
+      dhcpMemory.leaseStatus[lease].status = DHCP_LEASE_AVAIL;
   }
 
   return INVALID_LEASE;
