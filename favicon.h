@@ -1,5 +1,5 @@
-#ifndef FAVICON_H
-#define FAVICON_H
+#ifndef __GAVEL_FAVICON_AUTO_H
+#define __GAVEL_FAVICON_AUTO_H
 
 // favicon_blue.ico data converted to C-style header
 const char favicon[] = {
@@ -1291,4 +1291,4 @@ const char favicon[] = {
 const unsigned int favicon_len = sizeof(favicon);
 const char favicon_string[] = "favicon_blue.ico";
 
-#endif // FAVICON_H
+#endif // __GAVEL_FAVICON_AUTO_H

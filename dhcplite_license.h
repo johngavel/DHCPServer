@@ -1,5 +1,5 @@
-#ifndef DHCPLITE_H
-#define DHCPLITE_H
+#ifndef __GAVEL_DHCPLITE_AUTO_H
+#define __GAVEL_DHCPLITE_AUTO_H
 
 // DHCPLite_LICENSE.txt data converted to C-style header
 const char DHCPLite[] = {
@@ -96,4 +96,4 @@ const char DHCPLite[] = {
 const unsigned int DHCPLite_len = sizeof(DHCPLite);
 const char DHCPLite_string[] = "DHCPLite_LICENSE.txt";
 
-#endif // DHCPLITE_H
+#endif // __GAVEL_DHCPLITE_AUTO_H
