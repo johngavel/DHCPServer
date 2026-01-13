@@ -22,6 +22,7 @@ void DHCPTask::setupTask() {
 
 void DHCPTask::executeTask() {
   int packetSize = 0;
+  char packetBuffer[DHCP_MESSAGE_SIZE]; // buffer to hold incoming packet,
   COMM_TAKE;
   packetSize = Udp.parsePacket();
   if (packetSize > 0) {
