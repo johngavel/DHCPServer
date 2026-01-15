@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Import the JS modules -->
+  <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/dhcptable.js"></script>
+  <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+  <!-- Use the custom elements -->
+  <my-header></my-header>
+
+  <main class="container">
+    <!-- Your main page content goes here -->
+    <config-card title="DHCP Server">
+      <dhcp-table></dhcp-table>
+      <element-group>
+        <nav-button link="/dhcpconfig.html" color="forward">DHCP Configuration</nav-button>
+        <nav-button link="/server.html" color="forward">Device Configuration</nav-button>
+      </element-group>
+    </config-card>
+  </main>
+  
+  <my-footer></my-footer>
+</body>
+</html>

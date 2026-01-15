@@ -3,7 +3,9 @@
 // Retrieved from Github: https://github.com/pkulchenko/DHCPLite/tree/master
 
 #include "DHCPLite.h"
-#include "leases.h"
+#include "dhcpserver.h"
+
+extern DHCPServer dhcpServer;
 
 byte quads[4];
 byte* long2quad(unsigned long value) {
@@ -39,28 +41,28 @@ int DHCPreply(RIP_MSG* packet, int packetSize, byte* serverIP, const char* domai
   int dhcpMessageOffset = getOption(dhcpMessageType, packet->OPT, packetSize - OPToffset, NULL);
   byte dhcpMessage = packet->OPT[dhcpMessageOffset];
 
-  byte lease = Lease::getLease(packet->chaddr);
+  byte lease = dhcpServer.getLease(packet->chaddr);
   byte response = DHCP_NAK;
   if (dhcpMessage == DHCP_DISCOVER) {
-    if (!Lease::validLeaseNumber(lease)) {
-      lease = Lease::getNewLease(); // use existing lease or get a new one
+    if (!dhcpServer.validLeaseNumber(lease)) {
+      lease = dhcpServer.getNewLease(); // use existing lease or get a new one
     }
-    if (Lease::validLeaseNumber(lease) && !Lease::ignoreLease(lease)) {
+    if (dhcpServer.validLeaseNumber(lease)) {
       response = DHCP_OFFER;
-      Lease::setLease(lease, packet->chaddr, millis() + 10000, DHCP_LEASE_OFFER); // 10s
+      dhcpServer.setLease(lease, packet->chaddr, millis() + 10000, DHCP_LEASE_OFFER); // 10s
     }
   } else if (dhcpMessage == DHCP_REQUEST) {
-    if (Lease::validLeaseNumber(lease) && !Lease::ignoreLease(lease)) {
+    if (dhcpServer.validLeaseNumber(lease)) {
       response = DHCP_ACK;
 
       // find hostname option in the request and store to provide DNS info
-      Lease::setLease(lease, packet->chaddr, millis() + (Lease::getLeaseTime() * 1000),
-                      DHCP_LEASE_ACK); // DHCP_LEASETIME is in seconds
+      dhcpServer.setLease(lease, packet->chaddr, millis() + (dhcpServer.getLeaseTime() * 1000),
+                          DHCP_LEASE_ACK); // DHCP_LEASETIME is in seconds
     }
   }
 
-  if (Lease::validLeaseNumber(lease)) { // Dynamic IP configuration
-    Lease::getLeaseIPAddress(lease, packet->yiaddr);
+  if (dhcpServer.validLeaseNumber(lease)) { // Dynamic IP configuration
+    dhcpServer.getLeaseIPAddress(lease, packet->yiaddr);
   }
 
   int currLoc = 0;
@@ -81,9 +83,9 @@ int DHCPreply(RIP_MSG* packet, int packetSize, byte* serverIP, const char* domai
   // DHCP lease timers: http://www.tcpipguide.com/free/t_DHCPLeaseLifeCycleOverviewAllocationReallocationRe.htm
   // Renewal Timer (T1): This timer is set by default to 50% of the lease period.
   // Rebinding Timer (T2): This timer is set by default to 87.5% of the length of the lease.
-  currLoc += populatePacket(packet->OPT, currLoc, dhcpIPaddrLeaseTime, long2quad(Lease::getLeaseTime()), 4);
-  currLoc += populatePacket(packet->OPT, currLoc, dhcpT1value, long2quad(Lease::getLeaseTime() * 0.5), 4);
-  currLoc += populatePacket(packet->OPT, currLoc, dhcpT2value, long2quad(Lease::getLeaseTime() * 0.875), 4);
+  currLoc += populatePacket(packet->OPT, currLoc, dhcpIPaddrLeaseTime, long2quad(dhcpServer.getLeaseTime()), 4);
+  currLoc += populatePacket(packet->OPT, currLoc, dhcpT1value, long2quad(dhcpServer.getLeaseTime() * 0.5), 4);
+  currLoc += populatePacket(packet->OPT, currLoc, dhcpT2value, long2quad(dhcpServer.getLeaseTime() * 0.875), 4);
 
   for (int i = 0; i < reqLength; i++) {
     switch (reqList[i]) {

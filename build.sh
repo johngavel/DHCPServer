@@ -6,27 +6,29 @@ if ! source common.sh 2> /dev/null; then
   exit 1
 fi
 
+# Source helper scripts
+if ! source testcommon.sh 2> /dev/null; then
+  log_error "testcommon.sh not found. Please ensure it's in the same directory." >&2
+  exit 1
+fi
+
 BUILD="$1"
-CURRENT_DIR="$2"
+CURRENT_DIR="${2:-.}"
 
 case "$BUILD" in
   --clean)
-    Delete "$CURRENT_DIR"/favicon.h
-    Delete "$CURRENT_DIR"/dhcplite_license.h
-    create_libraries_used.sh --clean $HOME_DIR/LibraryV1.0/GavelLicense
-
+    generate_from_assets.sh -c -n DHCP -i "$CURRENT_DIR"/assets -o "$CURRENT_DIR"/files
     ;;
   --pre)
-    createfileheader.sh "$CURRENT_DIR"/assets/DHCPLite_LICENSE.txt "$CURRENT_DIR"/dhcplite_license.h DHCPLite
-    createfileheader.sh "$CURRENT_DIR"/assets/favicon_blue.ico "$CURRENT_DIR"/favicon.h favicon
-    create_libraries_used.sh --build $HOME_DIR/LibraryV1.0/GavelLicense ETHERNET_USED TERMINAL_USED I2C_EEPROM_USED
+    generate_from_assets.sh -b -n DHCP -i "$CURRENT_DIR"/assets -o "$CURRENT_DIR"/files
     ;;
-  --post)
-    create_libraries_used.sh --clean $HOME_DIR/LibraryV1.0/GavelLicense
-    ;;
+  --post) ;;
   --build)
-    createfileheader.sh "$CURRENT_DIR"/assets/DHCPLite_LICENSE.txt "$CURRENT_DIR"/dhcplite_license.h DHCPLite
-    createfileheader.sh "$CURRENT_DIR"/assets/favicon_blue.ico "$CURRENT_DIR"/favicon.h favicon
+    generate_from_assets.sh -b -n DHCP -i "$CURRENT_DIR"/assets -o "$CURRENT_DIR"/files
+    ;;
+  --test)
+    # run_tests $CURRENT_DIR $DO_SHOW
+    exit $?
     ;;
   *)
     log_failed "Invalid Command Argument: $BUILD"

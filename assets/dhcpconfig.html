@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Import the JS modules -->
+  <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/dhcptable.js"></script>
+  <script type="module" src="/js/dhcpconfig.js"></script>
+  <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+  <!-- Use the custom elements -->
+  <my-header></my-header>
+
+  <main class="container">
+    <!-- Your main page content goes here -->
+    <config-card title="Configuration">
+      <element-group legend="Lease Time (s)">
+        <form id="leaseTimeForm" novalidate>
+          <input type="text" id="leaseTimeInput" placeholder="e.g., 86400 (seconds)" class="text mono" />
+          <button type="submit" class="button buttonOK">Lease Time</button>
+          <br>Changing the lease time requires YOU<br>to reboot everything for the new lease time.
+        </form>
+      </element-group>
+      <element-group legend="Range IP Addresses">
+        <form id="rangeForm" novalidate>
+          <input type="text" id="startInput" placeholder="e.g., 101" class="text mono" />
+          <label for="lastInput" class="form-label"> - </label>
+          <input type="text" id="lastInput" placeholder="e.g., 200" class="text mono" />
+          <button type="submit" class="button buttonOK">Range IP</button>
+          <br>Availability (Max Range is 100)
+        </form>
+      </element-group>
+      <element-group legend="Move IP Addresses">
+        <form id="moveForm" novalidate>
+          <label for="moveFromInput" class="form-label">Move: </label>
+          <input type="text" id="moveFromInput" placeholder="e.g., 101" class="text mono" />
+          <label for="moveToInput" class="form-label">To: </label>
+          <input type="text" id="moveToInput" placeholder="e.g., 102" class="text mono" />
+          <button type="submit" class="button buttonOK">Move IP</button>
+        </form>
+      </element-group>
+      <element-group legend="Delete IP Address">
+        <form id="deleteForm" novalidate>
+          <input type="text" id="deleteInput" placeholder="e.g., 101" class="text mono" />
+          <button type="submit" class="button buttonWarn">Delete IP</button>
+        </form>
+      </element-group>
+      <element-group legend="Delete All IP Address">
+        <form id="deleteAllForm" novalidate>
+          <button type="submit" class="button buttonError">Delete All</button>
+        </form>
+      </element-group>
+    </config-card>
+    <config-card title="DHCP Server">
+      <dhcp-table></dhcp-table>
+      <element-group>
+        <back-button link="/index.html" color="backward">Cancel</back-button>
+      </element-group>
+    </config-card>
+  </main>
+  
+  <my-footer></my-footer>
+</body>
+</html>
