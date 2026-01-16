@@ -68,6 +68,9 @@ void setup() {
 
   server.configure(ethernetModule.getServer(HTTP_PORT), &fileSystem);
 
+  hardwareList.add(&memory);
+  hardwareList.add(&ethernetModule);
+
   taskManager.add(&memory);
   taskManager.add(&ethernetModule);
   taskManager.add(&server);

@@ -21,7 +21,6 @@ void DHCPServer::initMemory() {
 void DHCPServer::printData(OutputInterface* terminal) {
   StringBuilder sb;
   char buffer[20];
-  terminal->println(HELP, "DHCP Server Configuration Data: ");
   sb = "Broadcast Address: ";
   sb + getIPString(broadcastAddress, buffer, sizeof(buffer));
   terminal->println(INFO, sb.c_str());
