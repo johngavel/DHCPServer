@@ -32,7 +32,7 @@ void setupDHCPServer() {
   dir = static_cast<ArrayDirectory*>(fileSystem.open("/www"));
   dir->addFile(new StaticFile(dhcpconfightml_string, dhcpconfightml, dhcpconfightml_len));
   dir = static_cast<ArrayDirectory*>(fileSystem.open("/www/api"));
-  dir->addFile(new JsonFile(&dhcpServer, "dhcp-info.json", READ_WRITE));
+  dir->addFile(new JsonFile(&dhcpServer, "dhcp-info.json", READ_WRITE, JsonFile::LARGE_BUFFER_SIZE));
   dir = static_cast<ArrayDirectory*>(fileSystem.open("/www/js"));
   dir->addFile(new StaticFile(dhcptablejs_string, dhcptablejs, dhcptablejs_len));
   dir->addFile(new StaticFile(dhcpconfigjs_string, dhcpconfigjs, dhcpconfigjs_len));
