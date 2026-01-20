@@ -23,7 +23,7 @@ struct LeaseStatus {
 
 class DHCPServer : public IMemory, public Task {
 public:
-  DHCPServer() : Task("DHCPServer"){};
+  DHCPServer() : IMemory("DHCPServer"), Task("DHCPServer"){};
   virtual void addCmd(TerminalCommand* __termCmd) override;
   virtual void reservePins(BackendPinSetup* pinsetup) override;
   virtual bool setupTask(OutputInterface* __terminal) override;
