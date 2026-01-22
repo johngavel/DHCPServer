@@ -1,7 +1,5 @@
 #include "dhcpserver.h"
 
-#include <GavelDebug.h>
-
 void DHCPServer::configure(unsigned char* __ipAddress, unsigned char* __subnetMask, unsigned char* __macAddress) {
   ipAddress = __ipAddress;
   subnetMask = __subnetMask;
