@@ -4,7 +4,7 @@
 #include <GavelEEProm.h>
 #include <GavelEthernet.h>
 #include <GavelI2CWire.h>
-#include <GavelPicoStandard.h>
+#include <GavelPico.h>
 #include <GavelSPIWire.h>
 #include <GavelServer.h>
 #include <GavelServerStandard.h>
@@ -61,8 +61,8 @@ void setup() {
   sb + ":\\> ";
   telnet.configure(ethernetModule.getServer(TELNET_PORT), sb.c_str(), banner);
 
-  loadServerStandard(static_cast<JsonInterface*>(ethernetModule.getMemory()), &server, &fileSystem, &taskManager,
-                     &memory);
+  loadServerStandard(&programMem, &hardwareList, &license, ethernetModule.getMemory(), &server, &fileSystem,
+                     &taskManager, &memory, &pico);
   ArrayDirectory* dir = static_cast<ArrayDirectory*>(fileSystem.open("/www"));
   dir->addFile(new StaticFile("favicon.ico", faviconblueico, faviconblueico_len));
   dir->addFile(new StaticFile(indexhtml_string, indexhtml, indexhtml_len));
